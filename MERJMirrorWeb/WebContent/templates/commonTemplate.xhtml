@@ -2,7 +2,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-	    xmlns:f="http://java.sun.com/jsf/core"
 	    xmlns:h="http://java.sun.com/jsf/html"
         xmlns:ui="http://java.sun.com/jsf/facelets">
   
@@ -12,23 +11,23 @@
   
     <h:body>
     
-        <div>
+        <div id = "page">
     
-            <div id="header">
-                <ui:insert name="header">
-                    <ui:include src="/templates/commonHeader.xhtml" />
+            <div id = "header">
+                <ui:insert name = "header">
+                    <ui:include src = "/templates/commonHeader.xhtml" />
                 </ui:insert>
             </div>
       
-            <div id="content">
-                <ui:insert name="content">
-                    <ui:include src="/templates/commomContent.xhtml" />
+            <div id = "content">
+                <ui:insert name = "content">
+                    <ui:include src = "/templates/commonContent.xhtml" />
                 </ui:insert>
             </div>
       
-            <div id="footer">
-                <ui:insert name="footer">
-                    <ui:include src="/templates/commonFooter.xhtml" />
+            <div id = "footer">
+                <ui:insert name = "footer">
+                    <ui:include src = "/templates/commonFooter.xhtml" />
                 </ui:insert>
             </div>
       
