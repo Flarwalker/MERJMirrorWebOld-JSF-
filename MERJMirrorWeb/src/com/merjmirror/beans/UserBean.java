@@ -31,6 +31,8 @@ public class UserBean implements Serializable {
     private MerjMirror mirror;
     private ArrayList<String> users;
     private String activeUser;
+    private String selectedUser;
+    private String tempName;
     
     /**
      * Empty Constructor.
@@ -110,5 +112,48 @@ public class UserBean implements Serializable {
     public void updateActiveUser () {
         mirror.setActiveUser(users.indexOf(activeUser));
     }
+    
+    public void setSelectedUser (String user) {
+        this.selectedUser = user;
+    }
+    
+    public String getSelectedUser () {
+        return selectedUser;
+    }
+    
+    public void deleteUser () {
+        int index = users.indexOf(selectedUser);
+        users.set(index, "");
+        mirror.deleteUser(index);
+    }
+    
+    public String getTempName () {
+        return tempName;
+    }
+    
+    public void setTempName (String tempName) {
+        this.tempName = tempName;
+    }
+    
+    public void changeUserName () {
+        int index = users.indexOf(selectedUser);
+        users.set(index, tempName);
+        mirror.updateUserName(selectedUser, tempName);
+        selectedUser = tempName;
+    }
+    
+    public void createUser () {
+        for (int i = 0; i < users.size(); i ++) {
+            if (users.get(i).equalsIgnoreCase("")) {
+                users.set(i, tempName);
+                mirror.addUser(i, tempName);
+                return;
+            }
+        }
+        users.add(tempName);
+        mirror.addUser(users.indexOf(tempName), tempName);
+        
+    }
+    
     
 }

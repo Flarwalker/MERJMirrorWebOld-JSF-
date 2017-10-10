@@ -60,8 +60,13 @@ public class MerjMirror implements Serializable {
      * Adds a user to the table and the list.
      * @param userName Name of the user
      */
-    public void addUser (String userName) {
-        users.add(userName);
+    public void addUser (int index, String userName) {
+        if (index >= users.size()) {
+            users.add(userName);
+        } else {
+            users.set(index, userName);
+        }
+        
         merjDao.insertUser(users.indexOf(userName), userName);
     }
 
@@ -241,6 +246,17 @@ public class MerjMirror implements Serializable {
     public void deletePref (DataPref pref, int index) {
         userPrefs.remove(index);
         merjDao.deletePref(pref.getPrefId(), activeUser);
+    }
+    
+    public void deleteUser (int index) {
+        users.set(index, "");
+        merjDao.deleteUser(index);
+    }
+    
+    public void updateUserName (String oldName, String newName) {
+        int index = users.indexOf(oldName);
+        users.set(index, newName);
+        merjDao.updateUser(index, index, newName);
     }
 
 }

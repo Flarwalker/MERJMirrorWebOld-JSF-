@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+    <h:body>
+
+        <ui:composition template = "/templates/commonTemplate.xhtml">
+
+            <ui:define name = "content">
+        
+                <br />
+                <br/>
+        
+                <p:outputLabel for="users" value="Select User:" />
+                <h:panelGrid columns = "1" style = "margin-bottom:10px" cellpadding="5">
+                    <p:selectOneRadio id="users" value="#{userBean.selectedUser}" required = "true" layout = "grid" columns = "1">
+                        <f:selectItems value="#{userBean.users}" var = "c" itemLabel = "#{user}" itemValue = "#{user}" />
+                    </p:selectOneRadio>
+                </h:panelGrid>
+        
+                <p:commandButton value = "Set Active User" actionList = "#{userBean.setActiveListener(selectedUser)" action = "prefList.jsf?faces-redirect=true" />
+                <p:commandButton value = "New User" onclick = "PF('dlg2').show()" />
+                <p:commandButton value = "Change User Name" onclick = "PF('dlg1').show()" />
+                <p:commandButton value = "Delete User" actionListener = "#{userBean.deleteUser()}" update = "users">
+                    <p:confirm header = "Delete User" message = "Delete Selected User?" icon = "ui-icon-alert" />
+                </p:commandButton>
+                
+                <p:confirmDialog golbal = "true" showEffect = "fade" hideEffect = "fade">
+                    <p:commandButton value = "Yes" type = "button" styleClass = "ui-confirmdialog-yes" icon = "ui-icon-chack" />
+                    <p:commandButton value = "No" type = "button" styleClass = "ui-confirmdialog-no" icon = "ui-icon-close" />
+                </p:confirmDialog>
+                
+                <p:dialog header = "Change User Name for #{userBean.selectedUser}" widgetVar = "dlg1" resizable = "false">
+                    <h:panelGrid columns = "2" cellpadding = "5">
+                        <h:outputLabel for = "username" value = "Username:" />
+                        <p:inputText id = "username" value = "#{userBean.tempName}" required = "true" label = "username" />
+ 
+                        <f:facet name = "footer">
+                            <p:commandButton value = "Change" actionListener = "#{userBean.changeUserName()}" />
+                            <p:commandButton value = "Cancel" actionListener = "PF('dlg1').hide()" />
+                        </f:facet>  
+                    </h:panelGrid>
+                </p:dialog>
+                
+                <p:dialog  header = "New User" widgetVar = "dlg2" resizable = "false">
+                    <h:panelGrid columns = "2" cellpadding = "5">
+                        <h:outputLabel for = "userName" value = "New User's Name" />
+                        <p:inputText id = "userName" value = "#{userBean.tempName}" required = "true" label = "userName" />
+                        
+                        <f:facet name = "footer">
+                            <p:commandButton value = "Add User" actionListener = "#{userBean.createUser()}" />
+                            <p:commandButton value = "Cancel" actionListener = "PF('dlg2').hide()" />
+                        </f:facet>
+                    </h:panelGrid>
+                </p:dialog>
+        
+      </ui:define>
+
+        </ui:composition>
+
+    </h:body>
+
+</html>
