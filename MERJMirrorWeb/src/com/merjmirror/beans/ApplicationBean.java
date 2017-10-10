@@ -21,8 +21,8 @@ import com.merjmirror.util.config.AppConfig;
 @ApplicationScoped
 @ManagedBean(name = "applicationBean")
 public class ApplicationBean {
-    private AppConfig config;
-    private MerjMirror mirror;
+    private static AppConfig config;
+    private static MerjMirror mirror;
     
     /**
      * Public Constructor.
@@ -34,7 +34,7 @@ public class ApplicationBean {
     /**
      * Function to run start up on the fist web page.
      */
-    public void onload() {
+    public static void onload() {
         config = new AppConfig();
         mirror = new MerjMirror(config);
     }
@@ -45,11 +45,18 @@ public class ApplicationBean {
     public AppConfig getConfig () {
         return config;
     }
+    
+    /**
+     * @return List of config settings.
+     */
+    public String getConfigList() {
+        return config.getList();
+    }
 
     /**
      * @return mirror.
      */
-    public MerjMirror getMirror() {
+    public static MerjMirror getMirror() {
         return mirror;
     }
     
@@ -66,19 +73,19 @@ public class ApplicationBean {
     /**
      * Sets the config to the pasted config file.
      *
-     * @param config Config file to set
+     * @param confi Config file to set
      */
-    public void setConfig (AppConfig config) {
-        this.config = config;
+    public static void setConfig (AppConfig confi) {
+        config = confi;
     }
 
     /**
      * Sets the Mirror to the pasted mirror file.
      *
-     * @param mirror Mirror settings to set
+     * @param mirro Mirror settings to set
      */
-    public void setMirror (MerjMirror mirror) {
-        this.mirror = mirror;
+    public static void setMirror (MerjMirror mirro) {
+        mirror = mirro;
     }
 
 }

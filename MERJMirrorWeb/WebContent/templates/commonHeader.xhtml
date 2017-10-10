@@ -6,19 +6,24 @@
 
   <body>
     
-    <p:menubar>
-        <p:submenu label = "Menu">
-          <p:menuitem value="Change User" url = "#" />
-          <p:separator />
-          <p:submenu label = "New">
-            <p:menuitem value = "New User" url = "#" />
-            <p:menuitem value = "New Preference Set" url = "#" />
-          </p:submenu>
-        </p:submenu>
-    </p:menubar>
-    
     <ui:composition>
-        <h1>This is the default header</h1>
+        <!--  Deal with the rest of this. Like the banner -->
+    
+      <p:menubar>
+        <p:submenu label = "#{applicationBean.getProperty('label.menu')}">
+          <p:menuitem value="#{applicationBean.getProperty('label.menu.user')}" url = "#" />
+          <p:separator />
+          <p:submenu label = "#{applicationBean.getProperty('label.menu.new')}">
+            <p:menuitem value = "#{applicationBean.getProperty('label.menu.new.user')}" url = "#" />
+            <p:menuitem value = "#{applicationBean.getProperty('label.menu.new.pref')}" url = "#" />
+          </p:submenu>
+          <p:separator />
+          <p:menuitem value = "#{applicationBean.getProperty('label.menu.config')}" url = "config.jsf" />
+        </p:submenu>
+        
+        <p:menuitem value="#{applicationBean.getProperty('label.menu.pref')}" url = "prefList.jsf" />
+      </p:menubar>
+    
     </ui:composition>
   </body>
   

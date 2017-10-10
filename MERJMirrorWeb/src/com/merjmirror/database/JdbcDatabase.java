@@ -10,7 +10,6 @@ package com.merjmirror.database;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -57,17 +56,7 @@ public class JdbcDatabase {
         conn = dataSource.getConnection();
         conn.setAutoCommit(false);
         
-        setTimeZone(conn);
-        
         return conn;
-    }
-    
-    private void setTimeZone (Connection conn) throws SQLException {
-        String qry = "alter session set time_zone='EST'";
-        
-        Statement stmt = conn.createStatement();
-        stmt.execute(qry);
-        stmt.close();
     }
     
 }

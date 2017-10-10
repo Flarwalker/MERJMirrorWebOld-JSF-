@@ -8,6 +8,7 @@
  */
 package com.merjmirror;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,7 +22,9 @@ import com.merjmirror.util.config.AppConfig;
  * Class to hold the mirror setting and conversions.
  * @author Ryan
  */
-public class MerjMirror {
+public class MerjMirror implements Serializable {
+    private static final long serialVersionUID = 3L;
+
     private static final Logger LOGGER = Logger.getLogger(MerjMirror.class.getName());
     
     private ArrayList<String> users;
@@ -31,6 +34,8 @@ public class MerjMirror {
     private IMerjDao merjDao;
     
     private AppConfig config;
+    
+    private int activeUser;
 
     /**
      * Public Constructor.
@@ -48,6 +53,7 @@ public class MerjMirror {
 
         users = merjDao.selectUser();
         data = merjDao.selectData();
+        activeUser = 0;
     }
 
     /**
@@ -96,6 +102,15 @@ public class MerjMirror {
     public void addData (String dataName) {
         data.add(dataName);
         merjDao.insertData(data.indexOf(dataName), dataName);
+    }
+    
+    /**
+     * Returns the location of the active user.
+     * 
+     * @return activeUser
+     */
+    public int getActiveUser() {
+        return activeUser;
     }
 
     /**
@@ -163,6 +178,19 @@ public class MerjMirror {
     public IMerjDao getMerjDao () {
         return merjDao;
     }
+    
+    public void readUserPref () {
+        userPrefs = merjDao.selectPref(activeUser);
+    }
+    
+    /**
+     * Sets the active user location to the pasted value.
+     * 
+     * @param activeUser location to save
+     */
+    public void setActiveUser (int activeUser) {
+        this.activeUser = activeUser;
+    }
 
     /**
      * Sets the data List to the pasted list.
@@ -198,6 +226,21 @@ public class MerjMirror {
      */
     public void setMerjDao (IMerjDao merjDao) {
         this.merjDao = merjDao;
+    }
+    
+    public void updateActive (int prefID, boolean active) {
+        String act;
+        if (active) {
+            act = "1";
+        } else {
+            act = "0";
+        }
+        merjDao.updateActive(prefID, activeUser, act);
+    }
+    
+    public void deletePref (DataPref pref, int index) {
+        userPrefs.remove(index);
+        merjDao.deletePref(pref.getPrefId(), activeUser);
     }
 
 }

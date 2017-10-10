@@ -58,7 +58,7 @@ public class JdbcMerjDao implements IMerjDao, Serializable {
             Connection conn = db.getConnection();
             
             qry = conn.prepareStatement(query);
-            qry.setInt(1, dataId);
+            qry.setInt(1, dataId + 1);
             qry.execute();
             
             qry.close();
@@ -106,7 +106,7 @@ public class JdbcMerjDao implements IMerjDao, Serializable {
             Connection conn = db.getConnection();
             
             qry = conn.prepareStatement(query);
-            qry.setInt(1, userId);
+            qry.setInt(1, userId + 1);
             qry.execute();
             
             qry.close();
@@ -130,7 +130,7 @@ public class JdbcMerjDao implements IMerjDao, Serializable {
             Connection conn = db.getConnection();
             
             qry = conn.prepareStatement(query);
-            qry.setInt(1, dataId);
+            qry.setInt(1, dataId + 1);
             qry.setString(2, dataName);
             qry.execute();
             
@@ -159,7 +159,7 @@ public class JdbcMerjDao implements IMerjDao, Serializable {
             
             qry = conn.prepareStatement(query);
             qry.setInt(1, prefId);
-            qry.setInt(2, userId);
+            qry.setInt(2, userId + 1);
             qry.setString(3, prefName);
             qry.setString(4, dataDisplay);
             qry.setString(5, active);
@@ -186,7 +186,7 @@ public class JdbcMerjDao implements IMerjDao, Serializable {
             Connection conn = db.getConnection();
             
             qry = conn.prepareStatement(query);
-            qry.setInt(1, userId);
+            qry.setInt(1, userId + 1);
             qry.setString(2, userName);
             qry.execute();
             
@@ -202,9 +202,9 @@ public class JdbcMerjDao implements IMerjDao, Serializable {
      */
     @Override
     public ArrayList<String> selectData () {
-        String query = "SELECT * FROM users";
+        String query = "SELECT * FROM datadisplay";
         PreparedStatement qry;
-        ArrayList<String> users = new ArrayList<String>();
+        ArrayList<String> data = new ArrayList<String>();
         
         try {
             Connection conn = db.getConnection();
@@ -213,10 +213,18 @@ public class JdbcMerjDao implements IMerjDao, Serializable {
             
             ResultSet rs = qry.executeQuery();
             
+            rs.last();
+            int size = rs.getRow();
+            rs.beforeFirst();
+            
+            for (int i = 0; i < size; i++) {
+                data.add("");
+            }
+            
             while (rs.next()) {
-                int userId = rs.getInt("UserID");
-                String userName = rs.getString("UserName");
-                users.set(userId, userName);
+                int dataId = rs.getInt("DataDisplayID");
+                String dataName = rs.getString("dataDisplay");
+                data.set(dataId - 1, dataName);
             }
             
             qry.close();
@@ -226,7 +234,7 @@ public class JdbcMerjDao implements IMerjDao, Serializable {
             LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
         }
         
-        return users;
+        return data;
     }
     
     /**
@@ -242,7 +250,7 @@ public class JdbcMerjDao implements IMerjDao, Serializable {
             Connection conn = db.getConnection();
             
             qry = conn.prepareStatement(query);
-            qry.setInt(1, userId);
+            qry.setInt(1, userId + 1);
             
             ResultSet rs = qry.executeQuery();
             
@@ -297,11 +305,19 @@ public class JdbcMerjDao implements IMerjDao, Serializable {
             ResultSet rs = qry.executeQuery();
             users = new ArrayList<String> ();
             
+            rs.last();
+            int size = rs.getRow();
+            rs.beforeFirst();
+            
+            for (int i = 0; i < size; i++) {
+                users.add("");
+            }
+            
             while (rs.next()) {
                 int userId = rs.getInt("userID");
                 String userName = rs.getString("userName");
                 
-                users.set(userId, userName);
+                users.set(userId - 1, userName);
             }
             
             rs.close();
@@ -335,7 +351,7 @@ public class JdbcMerjDao implements IMerjDao, Serializable {
             qry = conn.prepareStatement(query);
             qry.setString(1, active);
             qry.setInt(2, prefId);
-            qry.setInt(3, userId);
+            qry.setInt(3, userId + 1);
             
             qry.execute();
             
@@ -362,9 +378,9 @@ public class JdbcMerjDao implements IMerjDao, Serializable {
             Connection conn = db.getConnection();
             
             qry = conn.prepareStatement(query);
-            qry.setInt(1, dataId);
+            qry.setInt(1, dataId + 1);
             qry.setString(2, dataName);
-            qry.setInt(3, dataIdOld);
+            qry.setInt(3, dataIdOld + 1);
             
             qry.execute();
             
@@ -400,7 +416,7 @@ public class JdbcMerjDao implements IMerjDao, Serializable {
             qry.setString(3, dataDisplay);
             qry.setString(4, active);
             qry.setInt(5, prefIdOld);
-            qry.setInt(6, userId);
+            qry.setInt(6, userId + 1);
             
             qry.execute();
             
@@ -428,9 +444,9 @@ public class JdbcMerjDao implements IMerjDao, Serializable {
             Connection conn = db.getConnection();
             
             qry = conn.prepareStatement(query);
-            qry.setInt(1, userId);
+            qry.setInt(1, userId + 1);
             qry.setString(2, userName);
-            qry.setInt(3, userIdOld);
+            qry.setInt(3, userIdOld + 1);
             
             qry.execute();
             

@@ -36,7 +36,7 @@ public class AppConfig {
      */
     public void reload () {
         LOGGER.log(Level.INFO, "Entering AppConfig.reload");
-        String configPath = "src/resources/config/config.properties";
+        String configPath = "C:/Users/Flarwalker/Documents/Codding/git/MERJMirrorWeb/src/resources/config.properties";
         
         try {
             File appFile = new File(configPath);
@@ -47,6 +47,13 @@ public class AppConfig {
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
         }
+    }
+    
+    /**
+     * @return List of values and keys.
+     */
+    public String getList() {
+        return props.toString();
     }
     
     /**
