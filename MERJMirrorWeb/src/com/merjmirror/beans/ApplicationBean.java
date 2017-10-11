@@ -3,7 +3,7 @@
  *  Project: MERJMirror
  *  Class: ApplicationBean
  *  Last Edited by: Ryan
- *  Last Edited: 9-27-17
+ *  Last Edited: 10-10-17
  * ----------------------------------------------------------------------------------------------------------- 
  */
 package com.merjmirror.beans;
@@ -32,20 +32,12 @@ public class ApplicationBean {
     }
 
     /**
-     * Function to run start up on the fist web page.
-     */
-    public static void onload() {
-        config = new AppConfig();
-        mirror = new MerjMirror(config);
-    }
-
-    /**
      * @return config.
      */
     public AppConfig getConfig () {
         return config;
     }
-    
+
     /**
      * @return List of config settings.
      */
@@ -59,7 +51,7 @@ public class ApplicationBean {
     public static MerjMirror getMirror() {
         return mirror;
     }
-    
+
     /**
      * Returns a key value from the config file.
      * 
@@ -68,6 +60,14 @@ public class ApplicationBean {
      */
     public String getProperty (String key) {
         return config.getProperty(key);
+    }
+
+    /**
+     * Function to run start up on the fist web page.
+     */
+    public static void onload() {
+        config = new AppConfig();
+        mirror = new MerjMirror(config);
     }
 
     /**

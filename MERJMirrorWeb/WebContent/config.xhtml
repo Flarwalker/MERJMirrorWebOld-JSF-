@@ -8,12 +8,12 @@
       xmlns:p="http://primefaces.org/ui">
 
     <h:body>
-        
+        <!-- Place to change labels with out restarting the web server -->
         <ui:composition template="/templates/commonTemplate.xhtml">
 
             <ui:define name="content">
                 <p:commandButton value = "Reload" id = "r1" actionListener="#{applicationBean.config.reload()}" />
-                
+
                 <p:outputLabel value="Config Settings List" />
                 <br />
                 <br />
@@ -21,8 +21,8 @@
                 #{applicationBean.getConfigList()}
                 </pre>
             </ui:define>
-        
+
         </ui:composition>
-        
+
     </h:body>
 </html>

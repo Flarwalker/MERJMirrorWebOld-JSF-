@@ -3,7 +3,7 @@
  *  Project: MERJMirror
  *  Class: DataPreference
  *  Last Edited by: Ryan
- *  Last Edited: 9-20-17
+ *  Last Edited: 10-10-17
  * ----------------------------------------------------------------------------------------------------------- 
  */
 package com.merjmirror.classes;
@@ -14,26 +14,26 @@ package com.merjmirror.classes;
  */
 public class DataPref {
     private boolean active;
-    
+
     private int prefId;
     private int userId;
-    
+
     private String prefName;
     private String dataDisplay;
-    
+
     /**
      * Default Constructor.
      */
     public DataPref () {
         active = false;
-        
+    
         prefId = 0;
         userId = 0;
-        
+    
         prefName    = "";
         dataDisplay = "";
     }
-    
+
     /**
      * Constructor with starting values.
      * 
@@ -52,35 +52,40 @@ public class DataPref {
     }
 
     /**
-     * @return dataDisplay.
+     * Returns the DataDisplay values.
+     * @return dataDisplay
      */
     public String getDataDisplay () {
         return dataDisplay;
     }
 
     /**
-     * @return prefId.
+     * Returns the Preference ID.
+     * @return prefId
      */
     public int getPrefId () {
         return prefId;
     }
 
     /**
-     * @return prefName.
+     * Returns the Preference Name.
+     * @return prefName
      */
     public String getPrefName () {
         return prefName;
     }
 
     /**
-     * @return userId.
+     * Returns the User's ID.
+     * @return userId
      */
     public int getUserId () {
         return userId;
     }
 
     /**
-     * @return active.
+     * Checks to see if the Preference is active.
+     * @return active
      */
     public boolean isActive () {
         return active;
@@ -125,5 +130,5 @@ public class DataPref {
     public void setUserId (int userId) {
         this.userId = userId;
     }
-    
+
 }

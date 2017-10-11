@@ -5,26 +5,25 @@
         xmlns:p="http://primefaces.org/ui">
 
   <body>
-    
+    <!-- Default Header. This header to  be show on all pages. Contains the menu with re-diction options -->
     <ui:composition>
         <!--  Deal with the rest of this. Like the banner -->
-    
+
       <p:menubar>
         <p:submenu label = "#{applicationBean.getProperty('label.menu')}">
-          <p:menuitem value="#{applicationBean.getProperty('label.menu.user')}" url = "#" />
+          <p:menuitem value="#{applicationBean.getProperty('label.menu.user')}" url = "Users.jsf" />
           <p:separator />
           <p:submenu label = "#{applicationBean.getProperty('label.menu.new')}">
-            <p:menuitem value = "#{applicationBean.getProperty('label.menu.new.user')}" url = "#" />
+            <p:menuitem value = "#{applicationBean.getProperty('label.menu.new.user')}" url = "Users.jsf" />
             <p:menuitem value = "#{applicationBean.getProperty('label.menu.new.pref')}" url = "#" />
           </p:submenu>
           <p:separator />
           <p:menuitem value = "#{applicationBean.getProperty('label.menu.config')}" url = "config.jsf" />
         </p:submenu>
-        
         <p:menuitem value="#{applicationBean.getProperty('label.menu.pref')}" url = "prefList.jsf" />
       </p:menubar>
-    
+
     </ui:composition>
   </body>
-  
+
 </html>

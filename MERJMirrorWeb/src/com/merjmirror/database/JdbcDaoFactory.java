@@ -3,7 +3,7 @@
  *  Project: MERJMirror
  *  Class: JdbcDaoFactory
  *  Last Edited by: Ryan
- *  Last Edited: 9-19-17
+ *  Last Edited: 10-10-17
  * ----------------------------------------------------------------------------------------------------------- 
  */
 package com.merjmirror.database;
@@ -19,9 +19,9 @@ import com.merjmirror.util.config.AppConfig;
  */
 public class JdbcDaoFactory implements Serializable {
     private static final long serialVersionUID = 2L;
-    
+
     private AppConfig config;
-    
+
     /**
      * Performs initialization.
      * 
@@ -32,14 +32,15 @@ public class JdbcDaoFactory implements Serializable {
         this.config = config;
         JdbcDatabase.getJdbcDatabase(this.config);
     }
-    
+
     /**
      * Gets the workflow Dao interface.
+     * 
      * @return JdbcMerjDao
      * @throws Exception Catch All
      */
     public IMerjDao getMerjDao () throws Exception {
         return new JdbcMerjDao(this.config);
     }
-    
+
 }

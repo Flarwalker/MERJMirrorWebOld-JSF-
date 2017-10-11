@@ -8,51 +8,52 @@
       xmlns:p="http://primefaces.org/ui">
 
     <h:body>
-        
-            <ui:composition template = "/templates/commonTemplate.xhtml">
+        <!-- Main Page of the Website. List the users saved preferences and allows them to edit and create new ones. -->
+        <ui:composition template = "/templates/commonTemplate.xhtml">
 
-                <ui:define name = "content">
+            <ui:define name = "content">
 
-                    <p:outputLabel for = "prefList" value = "#{applicationBean.getProperty('label.pref')}" />
+                <p:outputLabel for = "prefList" value = "#{applicationBean.getProperty('label.pref')}" />
+                <!-- Data Table to list the Preferences -->
+                <p:dataTable id = "prefList" value = "#{preferenceBean.prefList}" var = "pref" selectionMode = "single" selection = "#{preferenceBean.selectedPref}"
+                             paginator = "true" paginatorTemplate = "{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate = "5,10,15,25" paginatorPosition = "bottom" paginatorAlwaysVisible = "true" emptyMessage ="#{applicationBean.getProperty('pref.table.empty')}"
+                             resizableColumns="true" filteredValue="#{preferenceBean.filterList}" rowKey= "#{pref.prefId}">
 
-                    <p:dataTable id = "prefList" value = "#{preferenceBean.prefList}" var = "pref" selectionMode = "single" selection = "#{preferenceBean.selectedPref}"
-                                 paginator = "true" paginatorTemplate = "{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate = "5,10,15,25" paginatorPosition = "bottom" paginatorAlwaysVisible = "true" emptyMessage ="#{applicationBean.getProperty('pref.table.empty')}"
-                                 resizableColumns="true" filteredValue="#{preferenceBean.filterList}" rowKey= "#{pref.prefId}">
-                                 
-                        <p:column headerText = "#{applicationBean.getProperty('pref.table.active')}" fileterMatchMode = "contains" filterBy = "#{pref.active}">
-                            <h:outputLabel value = "#{pref.active}"/>
-                        </p:column>
-                        
-                        <p:column headerText = "#{applicationBean.getProperty('pref.table.id')}" filterMatchMode = "contains" filterBy = "#{pref.prefId}" >
-                            <h:outputText value = "#{pref.prefId}" />
-                        </p:column>
-                        
-                        <p:column headerText = "#{applicationBean.getProperty('pref.table.name')}" filterMatchMode = "contains" filterBy = "#{pref.prefName}">
-                            <h:outputText value = "#{pref.prefName}" />
-                        </p:column>
-                        
-                        <p:column headerText = "#{applicationBean.getProperty('pref.table.data')}" filterMatchModde = "contains" filterBy = "#{pref.dataDisplay}">
-                            <h:outputText value = "#{pref.dataDisplay}" />
-                        </p:column>
-                        
-                    </p:dataTable>
-                    
-                    <p:commandButton value = "#{applicationBean.getProperty('label.button.active')}" action = "#{preferenceBean.updateActive()}" />
-                    <p:commandButton value = "Create New Preference" />
-                    <p:commandButton value = "Edit Selected Preference" />
-                    <p:commandButton value = "Delect Preference" >
-                        <p:confirm header = "Confermation" message = "Do you want to Delete Selected Preference?" icon = "ui-icon-alert" action = "#preferenceBean.deletePref()}"/>
-                    </p:commandButton>
-                    
-                    <p:confirmDialog global = "true" showEffect = "fade" hideEffect = "fade">
-                        <p:commandButton value = "Yes" type = "button" styleClass = "ui-confirmdialog-yes" icon = "ui-icon-check"/>
-                        <p:commandButton value = "No" type = "button" styleClass = "ui-confirmdialog-no" icon = "ui-icon-check"/>
-                    </p:confirmDialog>
-                    
-                </ui:define>
-                
-            </ui:composition>
-        
+                    <p:column headerText = "#{applicationBean.getProperty('pref.table.active')}" fileterMatchMode = "contains" filterBy = "#{pref.active}">
+                        <h:outputLabel value = "#{pref.active}"/>
+                    </p:column>
+
+                    <p:column headerText = "#{applicationBean.getProperty('pref.table.id')}" filterMatchMode = "contains" filterBy = "#{pref.prefId}" >
+                        <h:outputText value = "#{pref.prefId}" />
+                    </p:column>
+
+                    <p:column headerText = "#{applicationBean.getProperty('pref.table.name')}" filterMatchMode = "contains" filterBy = "#{pref.prefName}">
+                        <h:outputText value = "#{pref.prefName}" />
+                    </p:column>
+
+                    <p:column headerText = "#{applicationBean.getProperty('pref.table.data')}" filterMatchModde = "contains" filterBy = "#{pref.dataDisplay}">
+                        <h:outputText value = "#{pref.dataDisplay}" />
+                    </p:column>
+
+                </p:dataTable>
+
+                <p:commandButton value = "#{applicationBean.getProperty('label.button.active')}" action = "#{preferenceBean.updateActive()}" />
+                <p:commandButton value = "Create New Preference" />
+                <p:commandButton value = "Edit Selected Preference" />
+                <p:commandButton value = "Delect Preference" >
+                    <p:confirm header = "Confermation" message = "Do you want to Delete Selected Preference?" icon = "ui-icon-alert" action = "#preferenceBean.deletePref()}"/>
+                </p:commandButton>
+
+                <p:confirmDialog global = "true" showEffect = "fade" hideEffect = "fade">
+                    <p:commandButton value = "Yes" type = "button" styleClass = "ui-confirmdialog-yes" icon = "ui-icon-check"/>
+                    <p:commandButton value = "No" type = "button" styleClass = "ui-confirmdialog-no" icon = "ui-icon-close"/>
+                </p:confirmDialog>
+
+            </ui:define>
+
+        </ui:composition>
+
     </h:body>
+
 </html>

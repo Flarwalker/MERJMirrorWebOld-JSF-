@@ -8,27 +8,27 @@
       xmlns:p="http://primefaces.org/ui">
 
   <h:body>
-    
+    <!-- Starting web page for the project makes them select a user to log in as. -->
     <ui:composition template = "/templates/commonTemplate.xhtml">
-    
+
       <ui:define name = "content">
-        
+
         <br />
         <br/>
-        
+
         <p:outputLabel for="users" value="Select User:" />
         <h:panelGrid columns = "1" style = "margin-bottom:10px" cellpadding="5">
           <p:selectOneRadio id="users" value="#{userBean.activeUser}" required = "true" layout = "grid" columns = "1">
             <f:selectItems value="#{userBean.users}" var = "c" itemLabel = "#{user}" itemValue = "#{user}" />
           </p:selectOneRadio>
         </h:panelGrid>
-        
+
         <p:commandButton value = "Enter" ajax = "false" action = "prefList.jsf?faces-redirect=true"/>
-        
+
       </ui:define>
-    
+
     </ui:composition>
-    
+
   </h:body>
-  
+
 </html>

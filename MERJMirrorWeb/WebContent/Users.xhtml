@@ -23,7 +23,7 @@
                     </p:selectOneRadio>
                 </h:panelGrid>
         
-                <p:commandButton value = "Set Active User" actionList = "#{userBean.setActiveListener(selectedUser)" action = "prefList.jsf?faces-redirect=true" />
+                <p:commandButton value = "Set Active User" actionList = "#{userBean.setActiveListener(selectedUser)}" action = "prefList.jsf?faces-redirect=true" />
                 <p:commandButton value = "New User" onclick = "PF('dlg2').show()" />
                 <p:commandButton value = "Change User Name" onclick = "PF('dlg1').show()" />
                 <p:commandButton value = "Delete User" actionListener = "#{userBean.deleteUser()}" update = "users">
