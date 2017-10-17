@@ -8,12 +8,15 @@
  */
 package com.merjmirror.beans;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 
 import com.merjmirror.MerjMirror;
 import com.merjmirror.beans.ApplicationBean;
@@ -34,6 +37,7 @@ public class UserBean implements Serializable {
     private String activeUser;
     private String selectedUser;
     private String tempName;
+    private String tempName1;
 
     /**
      * Empty Constructor.
@@ -45,28 +49,37 @@ public class UserBean implements Serializable {
     /**
      * Changed the Name of the Selected User.
      */
-    public void changeUserName () {
+    public void changeUsername () {
         int index = users.indexOf(selectedUser);
-        users.set(index, tempName);
-        mirror.updateUserName(selectedUser, tempName);
-        selectedUser = tempName;
+        
+        if (index != -1) {
+            users.set(index, tempName1);
+            mirror.updateUserName(index, selectedUser, tempName1);
+            selectedUser = tempName1;
+            tempName1 = "";
+            selectedUser = "";
+        }
     }
 
     /**
      * Creates a New User and adds it to the lists.
      */
     public void createUser () {
-        for (int i = 0; i < users.size(); i ++) {
-            if (users.get(i).equalsIgnoreCase("")) {
-                users.set(i, tempName);
-                mirror.addUser(i, tempName);
-                return;
+        selectedUser = null;
+        if (!tempName.equalsIgnoreCase("")) {
+            for (int i = 0; i < users.size(); i ++) {
+                if (users.get(i).equalsIgnoreCase("")) {
+                    users.set(i, tempName);
+                    mirror.addUser(i, tempName);
+                    tempName = "";
+                    return;
+                }
             }
-        }
         
-        users.add(tempName);
-        mirror.addUser(users.indexOf(tempName), tempName);
-    
+            users.add(tempName);
+            mirror.addUser(users.indexOf(tempName), tempName);
+            tempName = "";
+        }
     }
 
     /**
@@ -74,8 +87,19 @@ public class UserBean implements Serializable {
      */
     public void deleteUser () {
         int index = users.indexOf(selectedUser);
-        users.set(index, "");
-        mirror.deleteUser(index);
+        
+        if (index != -1) {
+            if (index == users.size()) {
+                users.remove(index);
+                mirror.deleteUser(index);
+                selectedUser = "";
+            } else {
+                users.set(index, "");
+                mirror.deleteUser(index);
+                selectedUser = "";
+            }
+        }
+        
     }
 
     /**
@@ -109,6 +133,14 @@ public class UserBean implements Serializable {
     public String getTempName () {
         return tempName;
     }
+    
+    /**
+     * Returns the Temporary Username 1.
+     * @return tempname1
+     */
+    public String getTempName1 () {
+        return tempName1;
+    }
 
     /**
      * Gets the User List.
@@ -126,6 +158,7 @@ public class UserBean implements Serializable {
         ApplicationBean.onload();
         mirror = ApplicationBean.getMirror();
         users = mirror.getUsers();
+        tempName = "";
     }
 
     /**
@@ -143,6 +176,22 @@ public class UserBean implements Serializable {
      */
     public void setMirror (MerjMirror mirror) {
         this.mirror = mirror;
+    }
+    
+    /**
+     * Resets the active user.
+     */
+    public void setNewActiveUser () {
+        this.activeUser = selectedUser;
+        updateActiveUser();
+        selectedUser = "";
+        
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+        try {
+            context.redirect(context.getRequestContextPath() + "/prefList.jsf");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     /**
@@ -167,6 +216,10 @@ public class UserBean implements Serializable {
      */
     public void setTempName (String tempName) {
         this.tempName = tempName;
+    }
+    
+    public void setTempName1 (String tempName1) {
+        this.tempName1 = tempName1;
     }
 
     /**

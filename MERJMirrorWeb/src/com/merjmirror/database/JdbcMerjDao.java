@@ -441,11 +441,12 @@ public class JdbcMerjDao implements IMerjDao, Serializable {
      * Updates a row in the user table.
      * 
      * @param userIdOld Original user id
-     * @param userId New userId
+     * @param newID New userId
+     * @param oldName Old Username
      * @param userName Name of the User
      */
     @Override
-    public void updateUser (int userIdOld, int userId, String userName) {
+    public void updateUser (int userIdOld, int newID, String oldName, String userName) {
         String query = "UPDATE users SET UserID = ?, UserName = ? WHERE UserID = ?";
         PreparedStatement qry;
     
@@ -453,7 +454,7 @@ public class JdbcMerjDao implements IMerjDao, Serializable {
             Connection conn = db.getConnection();
         
             qry = conn.prepareStatement(query);
-            qry.setInt(1, userId + 1);
+            qry.setInt(1, newID + 1);
             qry.setString(2, userName);
             qry.setInt(3, userIdOld + 1);
         

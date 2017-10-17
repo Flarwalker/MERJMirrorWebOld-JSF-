@@ -42,6 +42,6 @@ public interface IMerjDao {
 
     public void updatePref (int prefIdOld, int userId, int prefId, String prefName, String dataDisplay, String active);
 
-    public void updateUser (int userIdOld, int userId, String userName);
+    public void updateUser (int userIdOld, int userId, String oldName, String userName);
 
 }

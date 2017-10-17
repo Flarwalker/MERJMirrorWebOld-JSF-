@@ -259,19 +259,23 @@ public class MerjMirror implements Serializable {
      * @param index Location of user to delete
      */
     public void deleteUser (int index) {
-        users.set(index, "");
-        merjDao.deleteUser(index);
+        if (index == users.size()) {
+            users.remove(index);
+            merjDao.deleteUser(index);
+        } else {
+            users.set(index, "");
+            merjDao.deleteUser(index);
+        }
     }
 
     /**
      * Updates the Name of a user.
-     * @param oldName original user name
-     * @param newName New user name
+     * @param index Location of username
+     * @param oldName original username
+     * @param newName New username
      */
-    public void updateUserName (String oldName, String newName) {
-        int index = users.indexOf(oldName);
-        users.set(index, newName);
-        merjDao.updateUser(index, index, newName);
+    public void updateUserName (int index, String oldName, String newName) {
+        merjDao.updateUser(index, index, oldName, newName);
     }
 
 }
