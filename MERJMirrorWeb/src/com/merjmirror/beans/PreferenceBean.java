@@ -180,6 +180,16 @@ public class PreferenceBean implements Serializable {
         selectedPref = null;
     }
     
+    public void createEdit () {
+        mirror.setEdit(selectedPref);
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+        try {
+            context.redirect(context.getRequestContextPath() + "/editPref.jsf");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
     public void editPref () {
         ArrayList<String> data = new ArrayList<String> ();
         
@@ -234,6 +244,13 @@ public class PreferenceBean implements Serializable {
         }
         
         mirror.editPref(selectedPref, title, data, zip, stock, sign);
+        
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+        try {
+            context.redirect(context.getRequestContextPath() + "/prefList.jsf");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
     
     public ArrayList<String> getDataDisplay () {
@@ -365,7 +382,7 @@ public class PreferenceBean implements Serializable {
         for (String set: sets) {
             String [] dat = set.split(",");
             if (dat[1].contains("(")) {
-                String [] da = dat[1].split("(");
+                String [] da = dat[1].split("\\(");
                 index = Integer.parseInt(da[0]);
                 if (index > 0) {
                     type = mirror.getData(index - 1);
@@ -375,7 +392,7 @@ public class PreferenceBean implements Serializable {
                                            break;
                         case "Stock" :     stock = da[1];
                                            break;
-                        case "Horoscope" : title = da[1]; 
+                        case "Horoscope" : sign = da[1]; 
                                            break;
                         default : break;
                     }

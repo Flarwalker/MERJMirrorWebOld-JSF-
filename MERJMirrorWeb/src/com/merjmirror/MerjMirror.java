@@ -172,7 +172,7 @@ public class MerjMirror implements Serializable {
             type = data.get(i);
             index = this.data.indexOf(type);
             index++;
-            da = da + index;
+            da = da + "," + index;
             if (!data.get(i).equalsIgnoreCase("")) {
                 switch (data.get(i)) {
                     case "Weather" :   da = da + "(" + zip;

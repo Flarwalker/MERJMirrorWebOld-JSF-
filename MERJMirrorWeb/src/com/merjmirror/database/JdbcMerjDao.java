@@ -417,7 +417,7 @@ public class JdbcMerjDao implements IMerjDao, Serializable {
      */
     @Override
     public void updatePref (int prefIdOld, int userId, int prefId, String prefName, String dataDisplay, String active) {
-        String query = "UPDATE preference SET PrefID = ?, PrefName = ?, DataDisplay = ? Active = ? WHERE PrefID = ? AND UserID = ?";
+        String query = "UPDATE preference SET PrefID = ?, PrefName = ?, DataDisplay = ?, Active = ? WHERE PrefID = ? AND UserID = ?";
         PreparedStatement qry;
     
         try {
