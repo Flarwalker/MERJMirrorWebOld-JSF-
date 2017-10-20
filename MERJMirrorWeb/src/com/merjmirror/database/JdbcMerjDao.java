@@ -86,7 +86,7 @@ public class JdbcMerjDao implements IMerjDao, Serializable {
         
             qry = conn.prepareStatement(query);
             qry.setInt(1, prefId);
-            qry.setInt(2, userId);
+            qry.setInt(2, userId + 1);
             qry.execute();
         
             qry.close();
@@ -248,17 +248,20 @@ public class JdbcMerjDao implements IMerjDao, Serializable {
      * Selects all of the rows from the Preferences Table.
      */
     @Override
-    public ArrayList<DataPref> selectPref (int userId) {
-        String query = "SELECT * FROM preference WHERE UserID = ?";
+    public ArrayList<DataPref> selectPref () {
+        //String query = "SELECT * FROM preference WHERE UserID = ?";
+        String query = "SELECT * FROM preference";
         PreparedStatement qry;
         ArrayList<DataPref> prefs = new ArrayList<DataPref> ();
         DataPref temp;
+        
+        prefs.add(new DataPref());
     
         try {
             Connection conn = db.getConnection();
         
             qry = conn.prepareStatement(query);
-            qry.setInt(1, userId + 1);
+            //qry.setInt(1, userId + 1);
         
             ResultSet rs = qry.executeQuery();
         
@@ -266,6 +269,7 @@ public class JdbcMerjDao implements IMerjDao, Serializable {
                 temp = new DataPref();
             
                 int prefId = rs.getInt("prefID");
+                int userId = rs.getInt("userID");
                 String prefName = rs.getString("prefName");
                 String dataDisplay = rs.getString("dataDisplay");
                 String act = rs.getString("Active");

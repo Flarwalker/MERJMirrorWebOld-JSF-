@@ -31,7 +31,7 @@ public interface IMerjDao {
     //Select Commands
     public ArrayList<String> selectData ();
 
-    public ArrayList<DataPref> selectPref (int userId);
+    public ArrayList<DataPref> selectPref ();
 
     public ArrayList<String> selectUser ();
 

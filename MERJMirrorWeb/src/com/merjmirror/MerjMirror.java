@@ -29,12 +29,14 @@ public class MerjMirror implements Serializable {
     private AppConfig config;
 
     private ArrayList<String> data;
-    private ArrayList<DataPref> userPrefs;
+    private ArrayList<DataPref> prefs;
     private ArrayList<String> users;
 
     private IMerjDao merjDao;
 
     private int activeUser;
+    
+    private DataPref edit;
 
     /**
      * Public Constructor.
@@ -52,6 +54,7 @@ public class MerjMirror implements Serializable {
     
         users = merjDao.selectUser();
         data = merjDao.selectData();
+        prefs = merjDao.selectPref();
         activeUser = 0;
     }
 
@@ -72,42 +75,130 @@ public class MerjMirror implements Serializable {
     }
 
     /**
-     * Adds a Preference table.
-     * 
-     * @param prefName Name of the preference to the table and list
-     * @param dataDisplay Data sets to show
-     * @param active Is the preference the active
-     * @param userId Owners Id
-     */
-    public void addUserPref (String prefName, ArrayList<String> dataDisplay, boolean active, int userId) {
-        String data = "";
-        data = data + "1," + dataDisplay.get(1);
-        for (int i = 1; i < dataDisplay.size(); i++) {
-            data = data + ":" + i + "," + dataDisplay.get(i);
-        }
-    
-        DataPref pref = new DataPref(active, 0, userId, prefName, data);
-        userPrefs.add(pref);
-        int index = userPrefs.indexOf(pref);
-        userPrefs.get(index).setPrefId(index);
-    
-        String act;
-        if (active) {
-            act = "1";
-        } else {
-            act = "0";
-        }
-    
-        merjDao.insertPref(index, userId, prefName, data, act);
-    }
-
-    /**
      * Add a data to the table and the list.
      * @param dataName Name of the data to set
      */
     public void addData (String dataName) {
         data.add(dataName);
         merjDao.insertData(data.indexOf(dataName), dataName);
+    }
+    
+    /**
+     * Created a new Preference Set.
+     * @param name Name of Preference
+     * @param data Data set to save
+     * @param zip Zip COnde for weather
+     * @param stock Stock code for stocks
+     * @param sign Horoscope sign
+     */
+    public void createPreference (String name, ArrayList<String> data, String zip, String stock, String sign) {
+        String da = "";
+        String type;
+        int index;
+        
+        
+        da = da + "1,";
+        type = data.get(0);
+        index = this.data.indexOf(type);
+        index++;
+        da = da + index;
+        if (!data.get(0).equalsIgnoreCase("")) {
+            switch (data.get(0)) {
+                case "Clock" :     break;
+                case "Weather" :   da = da + "(" + zip;
+                                   break;
+                case "Stock" :     da = da + "(" + stock;
+                                   break;
+                case "Horoscope" : da = da + "(" + sign; 
+                                   break;
+                default : break;
+            }
+        }
+        
+        for (int i = 1; i < 9; i++) {
+            da = da + ":" + (i + 1);
+            type = data.get(i);
+            index = this.data.indexOf(type);
+            index++;
+            da = da + "," + index;
+            if (!data.get(i).equalsIgnoreCase("")) {
+                switch (data.get(i)) {
+                    case "Weather" :   da = da + "(" + zip;
+                                       break;
+                    case "Stock" :     da = da + "(" + stock;
+                                       break;
+                    case "Horoscope" : da = da + "(" + sign; 
+                                       break;
+                    default : break;
+                }
+            }
+        }
+        
+        DataPref temp = new DataPref(false, 0, activeUser, name, da);
+        prefs.add(temp);
+        int loc = prefs.indexOf(temp);
+        prefs.get(loc).setPrefId(loc + 1);
+        
+        merjDao.insertPref(loc, activeUser, name, da, "0");
+    }
+    
+    public void editPref (DataPref selectedPref, String title, ArrayList<String> data, String zip, String stock, String sign) {
+        DataPref temp = selectedPref;
+        temp.setPrefName(title);
+        String da = "";
+        String type;
+        int index;
+        
+        da = da + "1,";
+        type = data.get(0);
+        index = this.data.indexOf(type);
+        index++;
+        da = da + index;
+        if (!data.get(0).equalsIgnoreCase("")) {
+            switch (data.get(0)) {
+                case "Clock" :     break;
+                case "Weather" :   da = da + "(" + zip;
+                                   break;
+                case "Stock" :     da = da + "(" + stock;
+                                   break;
+                case "Horoscope" : da = da + "(" + sign; 
+                                   break;
+                default : break;
+            }
+        }
+        
+        for (int i = 1; i < 9; i++) {
+            da = da + ":" + (i + 1);
+            type = data.get(i);
+            index = this.data.indexOf(type);
+            index++;
+            da = da + index;
+            if (!data.get(i).equalsIgnoreCase("")) {
+                switch (data.get(i)) {
+                    case "Weather" :   da = da + "(" + zip;
+                                       break;
+                    case "Stock" :     da = da + "(" + stock;
+                                       break;
+                    case "Horoscope" : da = da + "(" + sign; 
+                                       break;
+                    default : break;
+                }
+            }
+        }
+        
+        String act;
+        if (temp.isActive()) {
+            act = "1";
+        } else {
+            act = "0";
+        }
+        
+        temp.setDataDisplay(da);
+        merjDao.updatePref(selectedPref.getPrefId(), activeUser, temp.getPrefId(), temp.getPrefName(), temp.getDataDisplay(), act);
+        
+        int pindex = prefs.indexOf(selectedPref);
+        prefs.set(pindex, temp);
+        
     }
 
     /**
@@ -160,16 +251,16 @@ public class MerjMirror implements Serializable {
      * @param index Location to get value from
      * @return userPref User's Preference from indexed location
      */
-    public DataPref getUserPrefs (int index) {
-        return userPrefs.get(index);
+    public DataPref getPrefs (int index) {
+        return prefs.get(index);
     }
 
     /**
      * Returns a list of the User Preferences.
      * @return userPrefs List of User's Preference
      */
-    public ArrayList<DataPref> getUserPrefs () {
-        return userPrefs;
+    public ArrayList<DataPref> getPrefs () {
+        return prefs;
     }
 
     /**
@@ -182,9 +273,17 @@ public class MerjMirror implements Serializable {
 
     /**
      * Reads in the Active User's Preferences.
+     * @return pr
      */
-    public void readUserPref () {
-        userPrefs = merjDao.selectPref(activeUser);
+    public ArrayList<DataPref> readUserPref () {
+        ArrayList<DataPref> list = new ArrayList<DataPref> ();
+        
+        for (DataPref pr : prefs) {
+            if (pr.getUserId() == (activeUser + 1)) {
+                list.add(pr);
+            }
+        }
+        return list;
     }
 
     /**
@@ -215,8 +314,8 @@ public class MerjMirror implements Serializable {
      * Sets the user preference list to the pasted list.
      * @param userPref List to set
      */
-    public void setUserPref (ArrayList<DataPref> userPref) {
-        this.userPrefs = userPref;
+    public void setPref (ArrayList<DataPref> userPref) {
+        this.prefs = userPref;
     }
 
     /**
@@ -240,7 +339,7 @@ public class MerjMirror implements Serializable {
         } else {
             act = "0";
         }
-    
+        prefs.get(prefID).setActive(active);
         merjDao.updateActive(prefID, activeUser, act);
     }
 
@@ -250,7 +349,7 @@ public class MerjMirror implements Serializable {
      * @param index location of Preference to be removed
      */
     public void deletePref (DataPref pref, int index) {
-        userPrefs.remove(index);
+        prefs.remove(index);
         merjDao.deletePref(pref.getPrefId(), activeUser);
     }
 
@@ -276,6 +375,14 @@ public class MerjMirror implements Serializable {
      */
     public void updateUserName (int index, String oldName, String newName) {
         merjDao.updateUser(index, index, oldName, newName);
+    }
+
+    public DataPref getEdit () {
+        return edit;
+    }
+
+    public void setEdit (DataPref edit) {
+        this.edit = edit;
     }
 
 }

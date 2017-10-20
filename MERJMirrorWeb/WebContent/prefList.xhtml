@@ -39,9 +39,9 @@
                 </p:dataTable>
 
                 <p:commandButton value = "#{applicationBean.getProperty('label.button.active')}" action = "#{preferenceBean.updateActive()}" />
-                <p:commandButton value = "Create New Preference" />
-                <p:commandButton value = "Edit Selected Preference" />
-                <p:commandButton value = "Delect Preference" >
+                <p:commandButton value = "Create New Preference" action = "newPref.jsf?faces-redirect=true"/>
+                <p:commandButton value = "Edit Selected Preference" action = "#{preferenceBean.createEdit()}"/>
+                <p:commandButton value = "Delect Preference" action = "#{preferenceBean.deletePref()}" update = "prefList">
                     <p:confirm header = "Confermation" message = "Do you want to Delete Selected Preference?" icon = "ui-icon-alert" action = "#preferenceBean.deletePref()}"/>
                 </p:commandButton>
 
