@@ -12,12 +12,16 @@
         <ui:composition template = "/templates/commonTemplate.xhtml">
 
             <ui:define name = "content">
+            
+                <f:metadata>
+                    <f:event type = "preRenderView" listener = "#{userBean.setSelected()}" />
+                </f:metadata>
 
                 <br/>
 
                 <h:form id = "form">
                     <p:outputLabel for = "user" value="Select User:" />
-                    <h:panelGrid columns = "1" style = "margin-bottom:10px" cellpadding="5">
+                    <h:panelGrid id = "users" columns = "1" style = "margin-bottom:10px" cellpadding="5">
                         <p:selectOneRadio id="user" value="#{userBean.selectedUser}" required = "true" layout = "grid" columns = "1">
                             <f:selectItems value="#{userBean.users}" var = "user" itemLabel = "#{user}" itemValue = "#{user}" />
                         </p:selectOneRadio>
@@ -27,7 +31,7 @@
                 <p:commandButton value = "Set Active User" ajax = "false" action = "#{userBean.setNewActiveUser()}" />
                 <p:commandButton value = "New User" onclick = "PF('dlg').show()" />
                 <p:commandButton value = "Change Username" onclick = "PF('dlg1').show()" />
-                <p:commandButton value="Delete User" actionListener="#{userBean.deleteUser()}">
+                <p:commandButton value="Delete User" action="#{userBean.deleteUser()}">
                     <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
                 </p:commandButton>
  
@@ -36,7 +40,7 @@
                         <h:outputLabel for="username" value="Username:" />
                         <p:inputText id="username" value="#{userBean.tempName}" label="username" />
                         <f:facet name="footer">
-                            <p:commandButton value="Create" actionListener="#{userBean.createUser()}" ajax="false" oncomplete="PF('dlg').hide()"/>
+                            <p:commandButton value="Create" action="#{userBean.createUser()}" ajax = "false" update = "form" oncomplete="PF('dlg').hide()"/>
                             <p:commandButton value="Cancel" oncomplete="PF('dlg').hide()" />
                         </f:facet>  
                     </h:panelGrid>
@@ -47,7 +51,7 @@
                         <h:outputLabel for = "username1" value = "Username:" />
                         <p:inputText id = "username1" value = "#{userBean.tempName1}" label = "username" />
                         <f:facet name = "footer">
-                            <p:commandButton value = "Change" actionListener="#{userBean.changeUsername()}" ajax="false" oncomplete="" />
+                            <p:commandButton value = "Change" actionListener="#{userBean.changeUsername()}" ajax="false" oncomplete="PF('dlg1').hide()" />
                             <p:commandButton value = "Cancel" oncomplete = "PF('dlg1').hide()" />
                         </f:facet>
                     </h:panelGrid>

@@ -193,6 +193,10 @@ public class UserBean implements Serializable {
             ex.printStackTrace();
         }
     }
+    
+    public void setSelected () {
+        selectedUser = activeUser;
+    }
 
     /**
      * Sets the Selected User to the Pasted Value.
