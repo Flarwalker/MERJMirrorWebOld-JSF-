@@ -3,7 +3,7 @@
  *  Project: MERJMirror
  *  Class: DataPreference
  *  Last Edited by: Ryan
- *  Last Edited: 10-10-17
+ *  Last Edited: 10-20-17
  * ----------------------------------------------------------------------------------------------------------- 
  */
 package com.merjmirror.classes;

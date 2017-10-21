@@ -1,69 +1,70 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml version = "1.0" encoding = "ISO-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:p="http://primefaces.org/ui">
+<html xmlns    = "http://www.w3.org/1999/xhtml"
+	  xmlns:f  = "http://java.sun.com/jsf/core"
+	  xmlns:h  = "http://java.sun.com/jsf/html"
+      xmlns:ui = "http://java.sun.com/jsf/facelets"
+      xmlns:p  = "http://primefaces.org/ui">
   
     <h:body>
 
         <ui:composition template = "/templates/commonTemplate.xhtml">
 
             <ui:define name = "content">
-            
+
                 <h:panelGrid id = "title" columns = "2">
-                
-                    <h:outputLabel for = "name" value = "Title for Preference:" />
+
+                    <h:outputLabel for = "name" value = "#{applicationBean.getProperty('label.pref.title')}" />
                     <p:inputText id = "name" value = "#{preferenceBean.title}"/>
-                
+
                 </h:panelGrid>
-                
+
                 <br />
 
+                <!-- Grid to set the layout of the data types on the mirror. -->
                 <h:panelGrid id = "opt" columns = "2">
                     <p:panelGrid id = "grid" columns = "3" >
 
                         <p:selectOneMenu id = "spot1" value = "#{preferenceBean.spot1}" >
-                            <f:selectItem itemLabel = "Empty" itemValue = "" />
+                            <f:selectItem itemLabel = "#{applicationBean.getProperty('label.pref.empty')}" itemValue = "" />
                             <f:selectItems value = "#{preferenceBean.getDataDisplay()}" />
                         </p:selectOneMenu>
 
                         <p:selectOneMenu id = "spot2" value = "#{preferenceBean.spot2}" disable = "#{!preferenceBean.sides}">
-                            <f:selectItem itemLabel = "Empty" itemValue = "" />
+                            <f:selectItem itemLabel = "#{applicationBean.getProperty('label.pref.empty')}" itemValue = "" />
                             <f:selectItems value = "#{preferenceBean.getDataDisplay()}" />
                         </p:selectOneMenu>
 
                         <p:selectOneMenu id = "spot3" value = "#{preferenceBean.spot3}" >
-                            <f:selectItem itemLabel = "Empty" itemValue = "" />
+                            <f:selectItem itemLabel = "#{applicationBean.getProperty('label.pref.empty')}" itemValue = "" />
                             <f:selectItems value = "#{preferenceBean.getDataDisplay()}" />
                         </p:selectOneMenu>
 
                         <p:selectOneMenu id = "spot4" value = "#{preferenceBean.spot4}" disable = "#{not preferenceBean.sides}">
-                            <f:selectItem itemLabel = "Empty" itemValue = "" />
+                            <f:selectItem itemLabel = "#{applicationBean.getProperty('label.pref.empty')}" itemValue = "" />
                             <f:selectItems value = "#{preferenceBean.getDataDisplay()}" />
                         </p:selectOneMenu>
 
                         <p:selectOneMenu id = "spot5" disable = "true" />
 
                         <p:selectOneMenu id = "spot6" value = "#{preferenceBean.spot6}" disable = "#{not preferenceBean.sides}">
-                            <f:selectItem itemLabel = "Empty" itemValue = "" />
+                            <f:selectItem itemLabel = "#{applicationBean.getProperty('label.pref.empty')}" itemValue = "" />
                             <f:selectItems value = "#{preferenceBean.getDataDisplay()}" />
                         </p:selectOneMenu>
-                    
+
                         <p:selectOneMenu id = "spot7" value = "#{preferenceBean.spot7}" >
-                            <f:selectItem itemLabel = "Empty" itemValue = "" />
+                            <f:selectItem itemLabel = "#{applicationBean.getProperty('label.pref.empty')}" itemValue = "" />
                             <f:selectItems value = "#{preferenceBean.getDataDisplay()}" />
                         </p:selectOneMenu>
 
                         <p:selectOneMenu id = "spot8" value = "#{preferenceBean.spot8}" disable = "#{not preferenceBean.sides}">
-                            <f:selectItem itemLabel = "Empty" itemValue = "" />
+                            <f:selectItem itemLabel = "#{applicationBean.getProperty('label.pref.empty')}" itemValue = "" />
                             <f:selectItems value = "#{preferenceBean.getDataDisplay()}" />
                         </p:selectOneMenu>
 
                         <p:selectOneMenu id = "spot9" value = "#{preferenceBean.spot9}" >
-                            <f:selectItem itemLabel = "Empty" itemValue = "" />
+                            <f:selectItem itemLabel = "#{applicationBean.getProperty('label.pref.empty')}" itemValue = "" />
                             <f:selectItems value = "#{preferenceBean.getDataDisplay()}" />
                         </p:selectOneMenu>
 
@@ -74,29 +75,29 @@
                         <p:selectBooleanCheckbox id = "sides" value = "#{preferenceBean.sides}">
                             <f:ajax event = "change" update = "grid" />
                         </p:selectBooleanCheckbox>
-                        <h:outputLabel for = "sides" value = "Activate the Side options" />
+                        <h:outputLabel for = "sides" value = "#{applicationBean.getProperty('label.pref.sides')}" />
 
                     </p:panelGrid>
-
                 </h:panelGrid>
-                
+
                 <br />
 
+                <!-- Places to enter the needed values for the Data Types. -->
                 <h:panelGrid columns = "2">
 
-                    <h:outputLabel for = "weather" value = "Weather Zip Code:" />
+                    <h:outputLabel for = "weather" value = "#{applicationBean.getProperty('label.pref.zip')}" />
                     <p:inputText id = "weather" value = "#{preferenceBean.zip}" />
 
-                    <h:outputLabel for = "stock" value = "Stock Tic Codes:" />
+                    <h:outputLabel for = "stock" value = "#{applicationBean.getProperty('label.pref.stock')}" />
                     <p:inputText id = "stock" value = "#{preferenceBean.stock}" />
-                    
-                    <h:outputLabel for = "scope" value = "Horoscope Sign:" />
+
+                    <h:outputLabel for = "scope" value = "#{applicationBean.getProperty('label.pref.sign')}" />
                     <p:inputText id = "scope" value = "#{preferenceBean.sign}" />
 
                 </h:panelGrid>
-                
-                <p:commandButton value = "Create" action = "#{preferenceBean.createPref()}" />
-                <p:commandButton value = "Cancel" action = "prefList.jsf?faces-redirect=true" />
+
+                <p:commandButton value = "#{applicationBean.getProperty('button.label.create')}" action = "#{preferenceBean.createPref()}" />
+                <p:commandButton value = "#{applicationBean.getProperty('button.label.cancel')}" action = "prefList.jsf?faces-redirect=true" />
 
             </ui:define>
 

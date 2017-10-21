@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml version = "1.0" encoding = "ISO-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+<html xmlns    = "http://www.w3.org/1999/xhtml"
+      xmlns:h  = "http://java.sun.com/jsf/html"
+      xmlns:f  = "http://java.sun.com/jsf/core"
+      xmlns:ui = "http://java.sun.com/jsf/facelets"
+      xmlns:p  = "http://primefaces.org/ui">
 
     <h:body>
         <!-- Main Page of the Website. List the users saved preferences and allows them to edit and create new ones. -->
@@ -13,12 +13,12 @@
 
             <ui:define name = "content">
 
-                <p:outputLabel for = "prefList" value = "#{applicationBean.getProperty('label.pref')}" />
                 <!-- Data Table to list the Preferences -->
+                <p:outputLabel for = "prefList" value = "#{applicationBean.getProperty('label.pref')}" />
                 <p:dataTable id = "prefList" value = "#{preferenceBean.prefList}" var = "pref" selectionMode = "single" selection = "#{preferenceBean.selectedPref}"
                              paginator = "true" paginatorTemplate = "{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             rowsPerPageTemplate = "5,10,15,25" paginatorPosition = "bottom" paginatorAlwaysVisible = "true" emptyMessage ="#{applicationBean.getProperty('pref.table.empty')}"
-                             resizableColumns="true" filteredValue="#{preferenceBean.filterList}" rowKey= "#{pref.prefId}">
+                             rowsPerPageTemplate = "5,10,15,25" paginatorPosition = "bottom" paginatorAlwaysVisible = "false" emptyMessage = "#{applicationBean.getProperty('pref.table.empty')}"
+                             resizableColumns = "true" filteredValue = "#{preferenceBean.filterList}" rowKey = "#{pref.prefId}">
 
                     <p:column headerText = "#{applicationBean.getProperty('pref.table.active')}" fileterMatchMode = "contains" filterBy = "#{pref.active}">
                         <h:outputLabel value = "#{pref.active}"/>
@@ -38,11 +38,11 @@
 
                 </p:dataTable>
 
-                <p:commandButton value = "#{applicationBean.getProperty('label.button.active')}" action = "#{preferenceBean.updateActive()}" update = "prefList"/>
-                <p:commandButton value = "Create New Preference" action = "newPref.jsf?faces-redirect=true"/>
-                <p:commandButton value = "Edit Selected Preference" action = "#{preferenceBean.createEdit()}"/>
-                <p:commandButton value = "Delect Preference" action = "#{preferenceBean.deletePref()}" update = "prefList">
-                    <p:confirm header = "Confermation" message = "Do you want to Delete Selected Preference?" icon = "ui-icon-alert" action = "#preferenceBean.deletePref()}"/>
+                <p:commandButton value = "#{applicationBean.getProperty('button.label.pref.active')}" action = "#{preferenceBean.updateActive()}" update = "prefList" />
+                <p:commandButton value = "#{applicationBean.getProperty('button.label.pref.create')}" action = "newPref.jsf?faces-redirect=true" />
+                <p:commandButton value = "#{applicationBean.getProperty('button.label.pref.edit')}" action = "#{preferenceBean.createEdit()}" />
+                <p:commandButton value = "#{applicationBean.getProperty('button.label.pref.delete')}" action = "#{preferenceBean.deletePref()}" update = "prefList">
+                    <p:confirm header = "#{applicationBean.getProperty('pref.delete.header')}" message = "#{applicationBean.getProperty('pref.delete.message')}" icon = "ui-icon-alert" action = "#preferenceBean.deletePref()}" />
                 </p:commandButton>
 
                 <p:confirmDialog global = "true" showEffect = "fade" hideEffect = "fade">

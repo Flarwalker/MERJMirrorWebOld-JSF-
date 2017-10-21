@@ -3,7 +3,7 @@
  *  Project: MERJMirror
  *  Class: Preference Bean
  *  Last Edited by: Ryan
- *  Last Edited: 10-10-17
+ *  Last Edited: 10-20-17
  * ----------------------------------------------------------------------------------------------------------- 
  */
 package com.merjmirror.beans;
@@ -34,13 +34,14 @@ public class PreferenceBean implements Serializable {
     private ArrayList<DataPref> prefList;
     
     private boolean hasActive;
+    private boolean sides;
 
     private DataPref selectedPref;
 
     private int activePrefID;
 
     private MerjMirror mirror;
-    
+
     private String spot1;
     private String spot2;
     private String spot3;
@@ -49,119 +50,91 @@ public class PreferenceBean implements Serializable {
     private String spot7;
     private String spot8;
     private String spot9;
-    
-    private String zip;
-    private String stock;
+
     private String sign;
+    private String stock;
     private String title;
-    
-    private boolean sides;
-
-    public boolean isSides () {
-        return sides;
-    }
-
-    public void setSides (boolean sides) {
-        this.sides = sides;
-    }
-
-    public String getTitle () {
-        return title;
-    }
-
-    public void setTitle (String title) {
-        this.title = title;
-    }
-
-    public String getSign () {
-        return sign;
-    }
-
-    public void setSign (String sign) {
-        this.sign = sign;
-    }
-
-    public String getStock () {
-        return stock;
-    }
-
-    public void setStock (String stock) {
-        this.stock = stock;
-    }
-
-    public String getZip () {
-        return zip;
-    }
-
-    public void setZip (String zip) {
-        this.zip = zip;
-    }
+    private String zip;
 
     /**
      * Public Constructor.
      */
     public PreferenceBean () {
-        
-    }
     
+    }
+
     /**
-     * Creates a new preference and sends it to the database.
+     * Saves off the Preference to edit later and redirects to the edit page.
+     */
+    public void createEdit () {
+        mirror.setEdit(selectedPref);
+    
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+        try {
+            context.redirect(context.getRequestContextPath() + "/editPref.jsf");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * Creates a new preference and sends it to the database. Then redirects to the preference list page.
      */
     public void createPref () {
         ArrayList<String> data = new ArrayList<String> ();
-        
+    
         if (spot1 == null) {
             data.add("");
         } else {
             data.add(spot1);
         }
-        
+    
         if (spot2 == null) {
             data.add("");
         } else {
             data.add(spot2);
         }
-        
+    
         if (spot3 == null) {
             data.add("");
         } else {
             data.add(spot3);
         }
-        
+    
         if (spot4 == null) {
             data.add("");
         } else {
             data.add(spot4);
         }
-        
+    
         data.add("");
-        
+    
         if (spot6 == null) {
             data.add("");
         } else {
             data.add(spot6);
         }
-        
+    
         if (spot7 == null) {
             data.add("");
         } else {
             data.add(spot7);
         }
-        
+    
         if (spot8 == null) {
             data.add("");
         } else {
             data.add(spot8);
         }
-        
+    
         if (spot9 == null) {
             data.add("");
         } else {
             data.add(spot9);
         }
-        
+    
         mirror.createPreference(title, data, zip, stock, sign);
-        
+    
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
         try {
             context.redirect(context.getRequestContextPath() + "/prefList.jsf");
@@ -169,7 +142,7 @@ public class PreferenceBean implements Serializable {
             ex.printStackTrace();
         }
     }
-    
+
     /**
      * Deletes the Selected Preference Set.
      */
@@ -179,72 +152,65 @@ public class PreferenceBean implements Serializable {
         prefList = mirror.readUserPref();
         selectedPref = null;
     }
-    
-    public void createEdit () {
-        mirror.setEdit(selectedPref);
-        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-        try {
-            context.redirect(context.getRequestContextPath() + "/editPref.jsf");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
-    
+
+    /**
+     * Edits the Selected Preference and saves it to the database.
+     */
     public void editPref () {
         ArrayList<String> data = new ArrayList<String> ();
-        
+    
         if (spot1 == null) {
             data.add("");
         } else {
             data.add(spot1);
         }
-        
+    
         if (spot2 == null) {
             data.add("");
         } else {
             data.add(spot2);
         }
-        
+    
         if (spot3 == null) {
             data.add("");
         } else {
             data.add(spot3);
         }
-        
+    
         if (spot4 == null) {
             data.add("");
         } else {
             data.add(spot4);
         }
-        
+    
         data.add("");
-        
+    
         if (spot6 == null) {
             data.add("");
         } else {
             data.add(spot6);
         }
-        
+    
         if (spot7 == null) {
             data.add("");
         } else {
             data.add(spot7);
         }
-        
+    
         if (spot8 == null) {
             data.add("");
         } else {
             data.add(spot8);
         }
-        
+    
         if (spot9 == null) {
             data.add("");
         } else {
             data.add(spot9);
         }
-        
+    
         mirror.editPref(selectedPref, title, data, zip, stock, sign);
-        
+    
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
         try {
             context.redirect(context.getRequestContextPath() + "/prefList.jsf");
@@ -252,7 +218,11 @@ public class PreferenceBean implements Serializable {
             ex.printStackTrace();
         }
     }
-    
+
+    /**
+     * Returns the data display lists.
+     * @return data
+     */
     public ArrayList<String> getDataDisplay () {
         return mirror.getData();
     }
@@ -280,8 +250,23 @@ public class PreferenceBean implements Serializable {
     public DataPref getSelectedPref () {
         return selectedPref;
     }
-    
-    
+
+    /**
+     * Gets the Horoscope Sign.
+     * @return sign
+     */
+    public String getSign () {
+        return sign;
+    }
+
+    /**
+     * Gets the Stock Tick Codes.
+     * @return stock
+     */
+    public String getStock () {
+        return stock;
+    }
+
     /**
      * Returns the Preference for spot 1.
      * @return spot1
@@ -289,7 +274,7 @@ public class PreferenceBean implements Serializable {
     public String getSpot1 () {
         return spot1;
     }
-    
+
     /**
      * Returns the Preference for spot 2.
      * @return spot2
@@ -297,7 +282,7 @@ public class PreferenceBean implements Serializable {
     public String getSpot2 () {
         return spot2;
     }
-    
+
     /**
      * Return the Preference for spot 3.
      * @return spot3
@@ -305,7 +290,7 @@ public class PreferenceBean implements Serializable {
     public String getSpot3 () {
         return spot3;
     }
-    
+
     /**
      * Return the Preference for spot 4.
      * @return spot4
@@ -313,7 +298,7 @@ public class PreferenceBean implements Serializable {
     public String getSpot4 () {
         return spot4;
     }
-    
+
     /**
      * Return the Preference for spot 6.
      * @return spot6
@@ -321,7 +306,7 @@ public class PreferenceBean implements Serializable {
     public String getSpot6 () {
         return spot6;
     }
-    
+
     /**
      * Return the Preference for spot 7.
      * @return spot7
@@ -329,7 +314,7 @@ public class PreferenceBean implements Serializable {
     public String getSpot7 () {
         return spot7;
     }
-    
+
     /**
      * Return the Preference for spot 8.
      * @return spot8
@@ -337,7 +322,7 @@ public class PreferenceBean implements Serializable {
     public String getSpot8 () {
         return spot8;
     }
-    
+
     /**
      * Return the Preference for spot 9.
      * @return spot9
@@ -347,19 +332,36 @@ public class PreferenceBean implements Serializable {
     }
 
     /**
+     * Returns the Title of the preference.
+     * @return title
+     */
+    public String getTitle () {
+        return title;
+    }
+
+    /**
+     * Returns the zip code.
+     * @return zip
+     */
+    public String getZip () {
+        return zip;
+    }
+
+    /**
      * Function to run at the creation of the Bean.
      */
     @PostConstruct
     public  void init () {
         mirror = ApplicationBean.getMirror();
         prefList = mirror.readUserPref();
-        
+    
         for (DataPref pf : mirror.getPrefs()) {
             if (pf.isActive()) {
                 hasActive = true;
                 activePrefID = pf.getPrefId();
             }
         }
+    
         spot1 = "";
         spot2 = "";
         spot3 = "";
@@ -369,15 +371,27 @@ public class PreferenceBean implements Serializable {
         spot8 = "";
         spot9 = "";
     }
-    
+
+    /**
+     * Returns the active sides boolean value.
+     * @return sides
+     */
+    public boolean isSides () {
+        return sides;
+    }
+
+    /**
+     * Sets the value of the variables to selected preference for editing.
+     */
     public void onEdit () {
-        selectedPref = mirror.getEdit();
-        
-        title = selectedPref.getPrefName();
-        String data = selectedPref.getDataDisplay();
-        String [] sets = data.split(":");
         int index;
         String type;
+    
+        selectedPref = mirror.getEdit();
+        title = selectedPref.getPrefName();
+    
+        String data = selectedPref.getDataDisplay();
+        String [] sets = data.split(":");
         
         for (String set: sets) {
             String [] dat = set.split(",");
@@ -396,7 +410,7 @@ public class PreferenceBean implements Serializable {
                                            break;
                         default : break;
                     }
-                    
+                
                     switch (dat[0]){
                         case "1" : spot1 = type;
                                    break;
@@ -496,7 +510,7 @@ public class PreferenceBean implements Serializable {
     public void setFilterList (ArrayList<DataPref> filterList) {
         this.filterList = filterList;
     }
-    
+
     /**
      * Sets the Preference List to the Pasted List.
      * @param prefList List to set
@@ -504,7 +518,7 @@ public class PreferenceBean implements Serializable {
     public void setPrefList (ArrayList<DataPref> prefList) {
         this.prefList = prefList;
     }
-    
+
     /**
      * Sets the Selected Preference to the pasted Preference.
      * @param pref Preference to set
@@ -512,7 +526,23 @@ public class PreferenceBean implements Serializable {
     public void setSelectedPref (DataPref pref) {
         this.selectedPref = pref;
     }
-    
+
+    /**
+     * Sets the active sides boolean value to the past value.
+     * @param sides boolean value to set
+     */
+    public void setSides (boolean sides) {
+        this.sides = sides;
+    }
+
+    /**
+     * Sets the horoscope sign value to the pasted value.
+     * @param sign String value to set
+     */
+    public void setSign (String sign) {
+        this.sign = sign;
+    }
+
     /**
      * Sets the Spot 1 value.
      * @param spot1 value to set
@@ -520,7 +550,7 @@ public class PreferenceBean implements Serializable {
     public void setSpot1 (String spot1) {
         this.spot1 = spot1;
     }
-    
+
     /**
      * Sets the Spot 2 value.
      * @param spot2 value to set
@@ -528,7 +558,7 @@ public class PreferenceBean implements Serializable {
     public void setSpot2 (String spot2) {
         this.spot2 = spot2;
     }
-    
+
     /**
      * Sets the Spot 3 value.
      * @param spot3 value to set
@@ -536,7 +566,7 @@ public class PreferenceBean implements Serializable {
     public void setSpot3 (String spot3) {
         this.spot3 = spot3;
     }
-    
+
     /**
      * Sets the Spot 4 value.
      * @param spot4 value to set
@@ -544,7 +574,7 @@ public class PreferenceBean implements Serializable {
     public void setSpot4 (String spot4) {
         this.spot4 = spot4;
     }
-    
+
     /**
      * Sets the Spot 6 value.
      * @param spot6 value to set
@@ -552,7 +582,7 @@ public class PreferenceBean implements Serializable {
     public void setSpot6 (String spot6) {
         this.spot6 = spot6;
     }
-    
+
     /**
      * Sets the Spot 7 value.
      * @param spot7 value to set
@@ -560,7 +590,7 @@ public class PreferenceBean implements Serializable {
     public void setSpot7 (String spot7) {
         this.spot7 = spot7;
     }
-    
+
     /**
      * Sets the Spot 8 value.
      * @param spot8 value to set
@@ -568,7 +598,7 @@ public class PreferenceBean implements Serializable {
     public void setSpot8 (String spot8) {
         this.spot8 = spot8;
     }
-    
+
     /**
      * Sets the Spot 9 value.
      * @param spot9 value to set
@@ -576,7 +606,31 @@ public class PreferenceBean implements Serializable {
     public void setSpot9 (String spot9) {
         this.spot9 = spot9;
     }
-    
+
+    /**
+     * Sets the Stock Tick Codes to the pasted value.
+     * @param stock String value to set
+     */
+    public void setStock (String stock) {
+        this.stock = stock;
+    }
+
+    /**
+     * Sets the Title of the preference to the pasted value.
+     * @param title String value to set.
+     */
+    public void setTitle (String title) {
+        this.title = title;
+    }
+
+    /**
+     * Sets the zip code to the pasted value.
+     * @param zip String value to set
+     */
+    public void setZip (String zip) {
+        this.zip = zip;
+    }
+
     /**
      * Updates the Active Preference Set.
      */
@@ -591,5 +645,5 @@ public class PreferenceBean implements Serializable {
             prefList = mirror.readUserPref();
         }
     }
-    
+
 }

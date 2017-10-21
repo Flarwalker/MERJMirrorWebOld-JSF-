@@ -3,7 +3,7 @@
  *  Project: MERJMirror
  *  Class:   JdbcMeriDao
  *  Last Edited by: Ryan
- *  Last Edited: 10-10-17
+ *  Last Edited: 10-20-17
  * ----------------------------------------------------------------------------------------------------------- 
  */
 package com.merjmirror.database;
@@ -67,7 +67,6 @@ public class JdbcMerjDao implements IMerjDao, Serializable {
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
         }
-    
     }
 
     /**
@@ -254,7 +253,7 @@ public class JdbcMerjDao implements IMerjDao, Serializable {
         PreparedStatement qry;
         ArrayList<DataPref> prefs = new ArrayList<DataPref> ();
         DataPref temp;
-        
+    
         prefs.add(new DataPref());
     
         try {
@@ -399,7 +398,6 @@ public class JdbcMerjDao implements IMerjDao, Serializable {
         
             qry.close();
             conn.close();
-        
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
         }
@@ -435,7 +433,6 @@ public class JdbcMerjDao implements IMerjDao, Serializable {
         
             qry.close();
             conn.close();
-        
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
         }
@@ -446,7 +443,7 @@ public class JdbcMerjDao implements IMerjDao, Serializable {
      * 
      * @param userIdOld Original user id
      * @param newID New userId
-     * @param oldName Old Username
+     * @param oldName Old User Name
      * @param userName Name of the User
      */
     @Override
@@ -466,11 +463,9 @@ public class JdbcMerjDao implements IMerjDao, Serializable {
         
             qry.close();
             conn.close();
-        
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
         }
     }
 
 }
-

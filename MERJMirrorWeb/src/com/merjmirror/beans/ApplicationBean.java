@@ -3,7 +3,7 @@
  *  Project: MERJMirror
  *  Class: ApplicationBean
  *  Last Edited by: Ryan
- *  Last Edited: 10-10-17
+ *  Last Edited: 10-20-17
  * ----------------------------------------------------------------------------------------------------------- 
  */
 package com.merjmirror.beans;
@@ -23,30 +23,33 @@ import com.merjmirror.util.config.AppConfig;
 public class ApplicationBean {
     private static AppConfig config;
     private static MerjMirror mirror;
-    
+
     /**
      * Public Constructor.
      */
     public ApplicationBean () {
-        
+    
     }
 
     /**
-     * @return config.
+     * Returns a copy of the App config object.
+     * @return config
      */
     public AppConfig getConfig () {
         return config;
     }
 
     /**
-     * @return List of config settings.
+     * Gets a list of the Config File Settings. 
+     * @return List of config settings
      */
     public String getConfigList() {
         return config.getList();
     }
 
     /**
-     * @return mirror.
+     * Returns a copy of the Mirror object.
+     * @return mirror
      */
     public static MerjMirror getMirror() {
         return mirror;

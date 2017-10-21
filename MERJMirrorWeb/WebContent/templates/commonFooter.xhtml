@@ -1,17 +1,17 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml version = "1.0" encoding = "ISO-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+<html xmlns    = "http://www.w3.org/1999/xhtml"
+      xmlns:h  = "http://java.sun.com/jsf/html"
+      xmlns:ui = "http://java.sun.com/jsf/facelets">
 
-    <body>
+    <h:body>
         <!-- Footer to show on every single page. -->
         <ui:composition>
             <pre>
-                MERJ Mirror Web App  Written by Ryan Cross
-                Last Updated by Ryan Cross    Updated Date 9-28-2017
+                <h:outputText value = "#{applicationBean.getProperty('template.footer.message')}" />
             </pre>
         </ui:composition>
-    </body>
+    </h:body>
 
 </html>

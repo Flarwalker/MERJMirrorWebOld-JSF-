@@ -3,7 +3,7 @@
  *  Project: MERJMirror
  *  Class: UserBean
  *  Last Edited by: Ryan
- *  Last Edited: 10-10-17
+ *  Last Edited: 10-20-17
  * ----------------------------------------------------------------------------------------------------------- 
  */
 package com.merjmirror.beans;
@@ -43,7 +43,7 @@ public class UserBean implements Serializable {
      * Empty Constructor.
      */
     public UserBean () {
-        
+    
     }
 
     /**
@@ -51,7 +51,7 @@ public class UserBean implements Serializable {
      */
     public void changeUsername () {
         int index = users.indexOf(selectedUser);
-        
+    
         if (index != -1) {
             users.set(index, tempName1);
             mirror.updateUserName(index, selectedUser, tempName1);
@@ -87,7 +87,7 @@ public class UserBean implements Serializable {
      */
     public void deleteUser () {
         int index = users.indexOf(selectedUser);
-        
+    
         if (index != -1) {
             if (index == users.size()) {
                 users.remove(index);
@@ -99,7 +99,6 @@ public class UserBean implements Serializable {
                 selectedUser = "";
             }
         }
-        
     }
 
     /**
@@ -133,9 +132,9 @@ public class UserBean implements Serializable {
     public String getTempName () {
         return tempName;
     }
-    
+
     /**
-     * Returns the Temporary Username 1.
+     * Returns the Temporary UserName 1.
      * @return tempname1
      */
     public String getTempName1 () {
@@ -177,7 +176,7 @@ public class UserBean implements Serializable {
     public void setMirror (MerjMirror mirror) {
         this.mirror = mirror;
     }
-    
+
     /**
      * Resets the active user.
      */
@@ -185,7 +184,7 @@ public class UserBean implements Serializable {
         this.activeUser = selectedUser;
         updateActiveUser();
         selectedUser = "";
-        
+    
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
         try {
             context.redirect(context.getRequestContextPath() + "/prefList.jsf");
@@ -193,7 +192,10 @@ public class UserBean implements Serializable {
             ex.printStackTrace();
         }
     }
-    
+
+    /**
+     * Sets the selected User equal to the active User.
+     */
     public void setSelected () {
         selectedUser = activeUser;
     }
@@ -221,7 +223,11 @@ public class UserBean implements Serializable {
     public void setTempName (String tempName) {
         this.tempName = tempName;
     }
-    
+
+    /**
+     * Sets the Temporary UserName 1 to the passed name.
+     * @param tempName1 Name to set
+     */
     public void setTempName1 (String tempName1) {
         this.tempName1 = tempName1;
     }

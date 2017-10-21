@@ -1,18 +1,19 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml version = "1.0" encoding = "ISO-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:p="http://primefaces.org/ui">
+<html xmlns    = "http://www.w3.org/1999/xhtml"
+	  xmlns:f  = "http://java.sun.com/jsf/core"
+	  xmlns:h  = "http://java.sun.com/jsf/html"
+      xmlns:ui = "http://java.sun.com/jsf/facelets"
+      xmlns:p  = "http://primefaces.org/ui">
 
     <h:body>
 
+        <!-- List of Users where they can create and edit users. -->
         <ui:composition template = "/templates/commonTemplate.xhtml">
 
             <ui:define name = "content">
-            
+
                 <f:metadata>
                     <f:event type = "preRenderView" listener = "#{userBean.setSelected()}" />
                 </f:metadata>
@@ -20,39 +21,39 @@
                 <br/>
 
                 <h:form id = "form">
-                    <p:outputLabel for = "user" value="Select User:" />
-                    <h:panelGrid id = "users" columns = "1" style = "margin-bottom:10px" cellpadding="5">
-                        <p:selectOneRadio id="user" value="#{userBean.selectedUser}" required = "true" layout = "grid" columns = "1">
-                            <f:selectItems value="#{userBean.users}" var = "user" itemLabel = "#{user}" itemValue = "#{user}" />
+                    <p:outputLabel for = "user" value = "#{applicationBean.getProperty('label.user')}" />
+                    <h:panelGrid id = "users" columns = "1" style = "margin-bottom:10px" cellpadding = "5">
+                        <p:selectOneRadio id = "user" value = "#{userBean.selectedUser}" required = "true" layout = "grid" columns = "1">
+                            <f:selectItems value = "#{userBean.users}" var = "user" itemLabel = "#{user}" itemValue = "#{user}" />
                         </p:selectOneRadio>
                     </h:panelGrid>
                 </h:form>
 
-                <p:commandButton value = "Set Active User" ajax = "false" action = "#{userBean.setNewActiveUser()}" />
-                <p:commandButton value = "New User" onclick = "PF('dlg').show()" />
-                <p:commandButton value = "Change Username" onclick = "PF('dlg1').show()" />
-                <p:commandButton value="Delete User" action="#{userBean.deleteUser()}">
-                    <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                <p:commandButton value = "#{applicationBean.getProperty('button.label.user.set')}" ajax = "false" action = "#{userBean.setNewActiveUser()}" />
+                <p:commandButton value = "#{applicationBean.getProperty('button.label.user.new')}" onclick = "PF('dlg').show()" />
+                <p:commandButton value = "#{applicationBean.getProperty('button.label.user.edit')}" onclick = "PF('dlg1').show()" />
+                <p:commandButton value = "#{applicationBean.getProperty('button.label.user.delete')}" action = "#{userBean.deleteUser()}">
+                    <p:confirm header = "#{applicationBean.getProperty('user.delete.header')}" message = "#{applicationBean.getProperty('user.delete.message')}" icon = "ui-icon-alert" />
                 </p:commandButton>
- 
-                <p:dialog header="New User" widgetVar="dlg" resizable="false">
-                    <h:panelGrid columns="2" cellpadding="5">
-                        <h:outputLabel for="username" value="Username:" />
-                        <p:inputText id="username" value="#{userBean.tempName}" label="username" />
-                        <f:facet name="footer">
-                            <p:commandButton value="Create" action="#{userBean.createUser()}" ajax = "false" update = "form" oncomplete="PF('dlg').hide()"/>
-                            <p:commandButton value="Cancel" oncomplete="PF('dlg').hide()" />
+
+                <p:dialog header = "#{applicationBean.getProperty('user.new.header')}" widgetVar = "dlg" resizable = "false">
+                    <h:panelGrid columns = "2" cellpadding = "5">
+                        <h:outputLabel for = "username" value = "#{applicationBean.getProperty('label.user.name')}" />
+                        <p:inputText id = "username" value = "#{userBean.tempName}" label = "username" />
+                        <f:facet name = "footer">
+                            <p:commandButton value = "#{applicationBean.getProperty('button.label.create')}" action = "#{userBean.createUser()}" ajax = "false" update = "form" oncomplete = "PF('dlg').hide()" />
+                            <p:commandButton value = "#{applicationBean.getProperty('button.label.cancel')}" oncomplete = "PF('dlg').hide()" />
                         </f:facet>  
                     </h:panelGrid>
                 </p:dialog>
 
-                <p:dialog header = "Change Username" widgetVar = "dlg1" resizable = "false">
+                <p:dialog header = "#{applicationBean.getProperty('user.edit.header')}" widgetVar = "dlg1" resizable = "false">
                     <h:panelGrid columns = "2" cellpadding = "5">
-                        <h:outputLabel for = "username1" value = "Username:" />
+                        <h:outputLabel for = "username1" value = "#{applicationBean.getProperty('label.user.name')}" />
                         <p:inputText id = "username1" value = "#{userBean.tempName1}" label = "username" />
                         <f:facet name = "footer">
-                            <p:commandButton value = "Change" actionListener="#{userBean.changeUsername()}" ajax="false" oncomplete="PF('dlg1').hide()" />
-                            <p:commandButton value = "Cancel" oncomplete = "PF('dlg1').hide()" />
+                            <p:commandButton value = "#{applicationBean.getProperty('button.label.change')}" actionListener = "#{userBean.changeUsername()}" ajax = "false" oncomplete = "PF('dlg1').hide()" />
+                            <p:commandButton value = "#{applicationBean.getProperty('button.label.cancel')}" oncomplete = "PF('dlg1').hide()" />
                         </f:facet>
                     </h:panelGrid>
                 </p:dialog>

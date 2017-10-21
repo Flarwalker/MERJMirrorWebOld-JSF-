@@ -3,7 +3,7 @@
  *  Project: MERJMirror
  *  Class: JdbcDatabase
  *  Last Edited by: Ryan
- *  Last Edited: 10-10-17
+ *  Last Edited: 10-20-17
  * ----------------------------------------------------------------------------------------------------------- 
  */
 package com.merjmirror.database;
@@ -22,7 +22,8 @@ import com.merjmirror.util.config.AppConfig;
  * @author Ryan
  */
 public class JdbcDatabase {
-    private static JdbcDatabase singletonRef; // A Reference to the singleton
+    // A Reference to the singleton
+    private static JdbcDatabase singletonRef;
 
     private DataSource dataSource;
 

@@ -1,24 +1,25 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml version = "1.0" encoding = "ISO-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+<html xmlns    = "http://www.w3.org/1999/xhtml"
+      xmlns:h  = "http://java.sun.com/jsf/html"
+      xmlns:f  = "http://java.sun.com/jsf/core"
+      xmlns:ui = "http://java.sun.com/jsf/facelets"
+      xmlns:p  = "http://primefaces.org/ui">
 
     <h:body>
         <!-- Place to change labels with out restarting the web server -->
-        <ui:composition template="/templates/commonTemplate.xhtml">
+        <ui:composition template = "/templates/commonTemplate.xhtml">
 
-            <ui:define name="content">
-                <p:commandButton value = "Reload" id = "r1" actionListener="#{applicationBean.config.reload()}" />
+            <ui:define name = "content">
+                <p:commandButton value = "#{applicationBean.getProperty('button.label.reload')}" id = "r1" actionListener = "#{applicationBean.config.reload()}" />
 
-                <p:outputLabel value="Config Settings List" />
+                <p:outputLabel value = "#{applicationBean.getProperty('label.config')}" />
+
                 <br />
-                <br />
+
                 <pre>
-                #{applicationBean.getConfigList()}
+                    <h:outputText value = "#{applicationBean.getConfigList()}" />
                 </pre>
             </ui:define>
 

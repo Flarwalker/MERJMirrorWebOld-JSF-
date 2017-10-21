@@ -3,7 +3,7 @@
  *  Project: MERJMirror
  *  Class: MerjMirror
  *  Last Edited by: Ryan
- *  Last Edited: 10-10-17
+ *  Last Edited: 10-20-17
  * ----------------------------------------------------------------------------------------------------------- 
  */
 package com.merjmirror;
@@ -35,7 +35,7 @@ public class MerjMirror implements Serializable {
     private IMerjDao merjDao;
 
     private int activeUser;
-    
+
     private DataPref edit;
 
     /**
@@ -59,6 +59,15 @@ public class MerjMirror implements Serializable {
     }
 
     /**
+     * Add a data to the table and the list.
+     * @param dataName Name of the data to set
+     */
+    public void addData (String dataName) {
+        data.add(dataName);
+        merjDao.insertData(data.indexOf(dataName), dataName);
+    }
+
+    /**
      * Adds a user to the table and the list.
      * 
      * @param index Location to put the user Name
@@ -75,16 +84,8 @@ public class MerjMirror implements Serializable {
     }
 
     /**
-     * Add a data to the table and the list.
-     * @param dataName Name of the data to set
-     */
-    public void addData (String dataName) {
-        data.add(dataName);
-        merjDao.insertData(data.indexOf(dataName), dataName);
-    }
-    
-    /**
      * Created a new Preference Set.
+     * 
      * @param name Name of Preference
      * @param data Data set to save
      * @param zip Zip COnde for weather
@@ -95,12 +96,12 @@ public class MerjMirror implements Serializable {
         String da = "";
         String type;
         int index;
-        
-        
+    
         da = da + "1,";
         type = data.get(0);
         index = this.data.indexOf(type);
         index++;
+    
         da = da + index;
         if (!data.get(0).equalsIgnoreCase("")) {
             switch (data.get(0)) {
@@ -114,12 +115,13 @@ public class MerjMirror implements Serializable {
                 default : break;
             }
         }
-        
+    
         for (int i = 1; i < 9; i++) {
             da = da + ":" + (i + 1);
             type = data.get(i);
             index = this.data.indexOf(type);
             index++;
+        
             da = da + "," + index;
             if (!data.get(i).equalsIgnoreCase("")) {
                 switch (data.get(i)) {
@@ -133,26 +135,64 @@ public class MerjMirror implements Serializable {
                 }
             }
         }
-        
+    
         DataPref temp = new DataPref(false, 0, activeUser, name, da);
         prefs.add(temp);
         int loc = prefs.indexOf(temp);
         prefs.get(loc).setPrefId(loc + 1);
-        
+    
         merjDao.insertPref(loc, activeUser, name, da, "0");
     }
-    
+
+    /**
+     * Deletes a Preferences from the Users Preference List.
+     * 
+     * @param pref Preference to be removed
+     * @param index location of Preference to be removed
+     */
+    public void deletePref (DataPref pref, int index) {
+        prefs.remove(index);
+        merjDao.deletePref(pref.getPrefId(), activeUser);
+    }
+
+    /**
+     * Deletes a User from the List of Users.
+     * 
+     * @param index Location of user to delete
+     */
+    public void deleteUser (int index) {
+        if (index == users.size()) {
+            users.remove(index);
+            merjDao.deleteUser(index);
+        } else {
+            users.set(index, "");
+            merjDao.deleteUser(index);
+        }
+    }
+
+    /**
+     * Edits the selected preference with the pasted value.
+     * 
+     * @param selectedPref Preference to Edit
+     * @param title New Title to set
+     * @param data New set of data to set
+     * @param zip New Zip Code to set
+     * @param stock New Stock Tick Codes to set
+     * @param sign New Horoscope Sign to set
+     */
     public void editPref (DataPref selectedPref, String title, ArrayList<String> data, String zip, String stock, String sign) {
         DataPref temp = selectedPref;
-        temp.setPrefName(title);
         String da = "";
         String type;
         int index;
-        
+    
+        temp.setPrefName(title);
+    
         da = da + "1,";
         type = data.get(0);
         index = this.data.indexOf(type);
         index++;
+    
         da = da + index;
         if (!data.get(0).equalsIgnoreCase("")) {
             switch (data.get(0)) {
@@ -166,12 +206,13 @@ public class MerjMirror implements Serializable {
                 default : break;
             }
         }
-        
+    
         for (int i = 1; i < 9; i++) {
             da = da + ":" + (i + 1);
             type = data.get(i);
             index = this.data.indexOf(type);
             index++;
+        
             da = da + "," + index;
             if (!data.get(i).equalsIgnoreCase("")) {
                 switch (data.get(i)) {
@@ -185,25 +226,24 @@ public class MerjMirror implements Serializable {
                 }
             }
         }
-        
+    
         String act;
         if (temp.isActive()) {
             act = "1";
         } else {
             act = "0";
         }
-        
+    
         temp.setDataDisplay(da);
         merjDao.updatePref(selectedPref.getPrefId(), activeUser, temp.getPrefId(), temp.getPrefName(), temp.getDataDisplay(), act);
-        
+    
         int pindex = prefs.indexOf(selectedPref);
         prefs.set(pindex, temp);
-        
     }
 
     /**
      * Returns the location of the active user.
-     * @return activeUser Active User's Location
+     * @return activeUser
      */
     public int getActiveUser() {
         return activeUser;
@@ -211,7 +251,7 @@ public class MerjMirror implements Serializable {
 
     /**
      * Returns the list of data.
-     * @return data List of Data
+     * @return data
      */
     public ArrayList<String> getData () {
         return data;
@@ -221,15 +261,49 @@ public class MerjMirror implements Serializable {
      * Get data at set Index.
      * 
      * @param index Location of data to get
-     * @return data Data from indexed location
+     * @return data
      */
     public String getData (int index) {
         return data.get(index);
     }
 
     /**
+     * Returns the Edit preference storage.
+     * @return edit
+     */
+    public DataPref getEdit () {
+        return edit;
+    }
+
+    /**
+     * Gets the database object.
+     * @return merjDao
+     */
+    public IMerjDao getMerjDao () {
+        return merjDao;
+    }
+
+    /**
+     * Returns a list of the Preferences.
+     * @return prefs
+     */
+    public ArrayList<DataPref> getPrefs () {
+        return prefs;
+    }
+
+    /**
+     * Returns the indexed preferences list.
+     * 
+     * @param index Location to get value from
+     * @return preference
+     */
+    public DataPref getPrefs (int index) {
+        return prefs.get(index);
+    }
+
+    /**
      * Returns the list of Users.
-     * @return users List of Users
+     * @return users
      */
     public ArrayList<String> getUsers () {
         return users;
@@ -239,45 +313,19 @@ public class MerjMirror implements Serializable {
      * Returns a user name at the indexed location.
      * 
      * @param index Location to get from
-     * @return user User from indexed location
+     * @return user
      */
     public String getUsers (int index) {
         return users.get(index);
     }
 
     /**
-     * Returns the indexed preferences list.
-     * 
-     * @param index Location to get value from
-     * @return userPref User's Preference from indexed location
-     */
-    public DataPref getPrefs (int index) {
-        return prefs.get(index);
-    }
-
-    /**
-     * Returns a list of the User Preferences.
-     * @return userPrefs List of User's Preference
-     */
-    public ArrayList<DataPref> getPrefs () {
-        return prefs;
-    }
-
-    /**
-     * Gets the database object.
-     * @return merjDao Database Object
-     */
-    public IMerjDao getMerjDao () {
-        return merjDao;
-    }
-
-    /**
      * Reads in the Active User's Preferences.
-     * @return pr
+     * @return list
      */
     public ArrayList<DataPref> readUserPref () {
         ArrayList<DataPref> list = new ArrayList<DataPref> ();
-        
+    
         for (DataPref pr : prefs) {
             if (pr.getUserId() == (activeUser + 1)) {
                 list.add(pr);
@@ -303,11 +351,19 @@ public class MerjMirror implements Serializable {
     }
 
     /**
-     * Sets the users list to the pasted list.
-     * @param users List to set
+     * Sets the edit preference storage.
+     * @param edit Preference to set
      */
-    public void setUsers (ArrayList<String> users) {
-        this.users = users;
+    public void setEdit (DataPref edit) {
+        this.edit = edit;
+    }
+
+    /**
+     * Sets the database to the pasted value.
+     * @param merjDao Database object
+     */
+    public void setMerjDao (IMerjDao merjDao) {
+        this.merjDao = merjDao;
     }
 
     /**
@@ -319,11 +375,11 @@ public class MerjMirror implements Serializable {
     }
 
     /**
-     * Sets the database to the pasted value.
-     * @param merjDao Database object
+     * Sets the users list to the pasted list.
+     * @param users List to set
      */
-    public void setMerjDao (IMerjDao merjDao) {
-        this.merjDao = merjDao;
+    public void setUsers (ArrayList<String> users) {
+        this.users = users;
     }
 
     /**
@@ -344,45 +400,14 @@ public class MerjMirror implements Serializable {
     }
 
     /**
-     * Deletes a Preferences from the Users Preference List.
-     * @param pref Preference to be removed
-     * @param index location of Preference to be removed
-     */
-    public void deletePref (DataPref pref, int index) {
-        prefs.remove(index);
-        merjDao.deletePref(pref.getPrefId(), activeUser);
-    }
-
-    /**
-     * Deletes a User from the List of Users.
-     * @param index Location of user to delete
-     */
-    public void deleteUser (int index) {
-        if (index == users.size()) {
-            users.remove(index);
-            merjDao.deleteUser(index);
-        } else {
-            users.set(index, "");
-            merjDao.deleteUser(index);
-        }
-    }
-
-    /**
      * Updates the Name of a user.
-     * @param index Location of username
-     * @param oldName original username
-     * @param newName New username
+     * 
+     * @param index Location of User Name
+     * @param oldName original User Name
+     * @param newName New User Name
      */
     public void updateUserName (int index, String oldName, String newName) {
         merjDao.updateUser(index, index, oldName, newName);
-    }
-
-    public DataPref getEdit () {
-        return edit;
-    }
-
-    public void setEdit (DataPref edit) {
-        this.edit = edit;
     }
 
 }
