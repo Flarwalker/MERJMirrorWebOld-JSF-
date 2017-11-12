@@ -438,7 +438,12 @@ public class PreferenceBean implements Serializable {
                                            break;
                         case "Horoscope" : sunSign = da[1]; 
                                            break;
-                        case "Stocks" :     stock = da[1]; //TODO figure this one out;
+                        case "Stocks" :    String[] st = da[1].split("\\|");
+                                           String sto = st[0];
+                                           for (int i = 1; i < st.length; i++) {
+                                               sto = sto + " " + st[i];
+                                           }
+                                           stock = sto;
                                            break;
                         default : break;
                     }
