@@ -43,7 +43,6 @@ public class UserBean implements Serializable {
      * Empty Constructor.
      */
     public UserBean () {
-    
     }
 
     /**
@@ -91,10 +90,12 @@ public class UserBean implements Serializable {
         if (index != -1) {
             if (index == users.size()) {
                 users.remove(index);
+                mirror.deleteUserPrefs(index);
                 mirror.deleteUser(index);
                 selectedUser = "";
             } else {
                 users.set(index, "");
+                mirror.deleteUserPrefs(index);
                 mirror.deleteUser(index);
                 selectedUser = "";
             }

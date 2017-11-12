@@ -3,7 +3,7 @@
  *  Project: MERJMirror
  *  Class: MerjMirror
  *  Last Edited by: Ryan
- *  Last Edited: 10-20-17
+ *  Last Edited: 11-12-17
  * ----------------------------------------------------------------------------------------------------------- 
  */
 package com.merjmirror;
@@ -92,10 +92,15 @@ public class MerjMirror implements Serializable {
      * @param stock Stock code for stocks
      * @param sign Horoscope sign
      */
-    public void createPreference (String name, ArrayList<String> data, String zip, String stock, String sign) {
+    public void createPreference (String name, ArrayList<String> data, String city, String state, String source, String sunSign, String[] stocks) {
         String da = "";
         String type;
         int index;
+        
+        String stockList = stocks[0];
+        for (int i = 1; i < stocks.length; i++) {
+            stockList = stockList + "|" + stocks[i]; 
+        }
     
         da = da + "1,";
         type = data.get(0);
@@ -104,13 +109,15 @@ public class MerjMirror implements Serializable {
     
         da = da + index;
         if (!data.get(0).equalsIgnoreCase("")) {
-            switch (data.get(0)) {
+            switch (data.get(0)) { //TODO Still need to add in the Reminders and comic widgets
                 case "Clock" :     break;
-                case "Weather" :   da = da + "(" + zip;
+                case "Weather" :   da = da + "(" + city + "|" + state;
                                    break;
-                case "Stock" :     da = da + "(" + stock;
+                case "News" :      da = da + "(" + source;
                                    break;
-                case "Horoscope" : da = da + "(" + sign; 
+                case "Horoscope" : da = da + "(" + sunSign; 
+                                   break;
+                case "Stocks" :     da = da + "(" + stockList;
                                    break;
                 default : break;
             }
@@ -124,22 +131,25 @@ public class MerjMirror implements Serializable {
         
             da = da + "," + index;
             if (!data.get(i).equalsIgnoreCase("")) {
-                switch (data.get(i)) {
-                    case "Weather" :   da = da + "(" + zip;
+                switch (data.get(i)) { //TODO Still need to add in the Reminders and comic widgets
+                    case "Clock" :     break;
+                    case "Weather" :   da = da + "(" + city + "|" + state;
                                        break;
-                    case "Stock" :     da = da + "(" + stock;
+                    case "News" :      da = da + "(" + source;
                                        break;
-                    case "Horoscope" : da = da + "(" + sign; 
+                    case "Horoscope" : da = da + "(" + sunSign; 
+                                       break;
+                    case "Stocks" :     da = da + "(" + stockList;
                                        break;
                     default : break;
                 }
             }
         }
     
-        DataPref temp = new DataPref(false, 0, activeUser, name, da);
+        DataPref temp = new DataPref(false, 0, activeUser + 1, name, da);
         prefs.add(temp);
         int loc = prefs.indexOf(temp);
-        prefs.get(loc).setPrefId(loc + 1);
+        prefs.get(loc).setPrefId(loc);
     
         merjDao.insertPref(loc, activeUser, name, da, "0");
     }
@@ -169,6 +179,10 @@ public class MerjMirror implements Serializable {
             merjDao.deleteUser(index);
         }
     }
+    
+    public void deleteUserPrefs (int userId) {
+        merjDao.deleteUserPref(userId);
+    }
 
     /**
      * Edits the selected preference with the pasted value.
@@ -180,11 +194,16 @@ public class MerjMirror implements Serializable {
      * @param stock New Stock Tick Codes to set
      * @param sign New Horoscope Sign to set
      */
-    public void editPref (DataPref selectedPref, String title, ArrayList<String> data, String zip, String stock, String sign) {
+    public void editPref (DataPref selectedPref, String title, ArrayList<String> data, String city, String state, String source, String sunSign, String[] stocks) {
         DataPref temp = selectedPref;
         String da = "";
         String type;
         int index;
+        
+        String stockList = stocks[0];
+        for (int i = 1; i < stocks.length; i++) {
+            stockList = stockList + "|" + stocks[i]; 
+        }
     
         temp.setPrefName(title);
     
@@ -195,13 +214,15 @@ public class MerjMirror implements Serializable {
     
         da = da + index;
         if (!data.get(0).equalsIgnoreCase("")) {
-            switch (data.get(0)) {
+            switch (data.get(0)) { //TODO Still need to add in the Reminders and comic widgets
                 case "Clock" :     break;
-                case "Weather" :   da = da + "(" + zip;
+                case "Weather" :   da = da + "(" + city + "|" + state;
                                    break;
-                case "Stock" :     da = da + "(" + stock;
+                case "News" :      da = da + "(" + source;
                                    break;
-                case "Horoscope" : da = da + "(" + sign; 
+                case "Horoscope" : da = da + "(" + sunSign; 
+                                   break;
+                case "Stocks" :     da = da + "(" + stockList;
                                    break;
                 default : break;
             }
@@ -214,16 +235,17 @@ public class MerjMirror implements Serializable {
             index++;
         
             da = da + "," + index;
-            if (!data.get(i).equalsIgnoreCase("")) {
-                switch (data.get(i)) {
-                    case "Weather" :   da = da + "(" + zip;
-                                       break;
-                    case "Stock" :     da = da + "(" + stock;
-                                       break;
-                    case "Horoscope" : da = da + "(" + sign; 
-                                       break;
-                    default : break;
-                }
+            switch (data.get(i)) { //TODO Still need to add in the Reminders and comic widgets
+                case "Clock" :     break;
+                case "Weather" :   da = da + "(" + city + "|" + state;
+                                   break;
+                case "News" :      da = da + "(" + source;
+                                   break;
+                case "Horoscope" : da = da + "(" + sunSign; 
+                                   break;
+                case "Stocks" :     da = da + "(" + stockList;
+                                   break;
+                default : break;
             }
         }
     

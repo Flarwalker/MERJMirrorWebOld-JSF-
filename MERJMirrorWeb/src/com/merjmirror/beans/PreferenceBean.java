@@ -3,10 +3,11 @@
  *  Project: MERJMirror
  *  Class: Preference Bean
  *  Last Edited by: Ryan
- *  Last Edited: 10-20-17
+ *  Last Edited: 11-12-17
  * ----------------------------------------------------------------------------------------------------------- 
  */
 package com.merjmirror.beans;
+
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -42,6 +43,7 @@ public class PreferenceBean implements Serializable {
 
     private MerjMirror mirror;
 
+    // Spot Variables
     private String spot1;
     private String spot2;
     private String spot3;
@@ -51,16 +53,19 @@ public class PreferenceBean implements Serializable {
     private String spot8;
     private String spot9;
 
-    private String sign;
+    // Data String for widgets
+    private String city;
+    private String source;
+    private String state;
     private String stock;
+    private String sunSign;
+    
     private String title;
-    private String zip;
 
     /**
      * Public Constructor.
      */
     public PreferenceBean () {
-    
     }
 
     /**
@@ -132,8 +137,10 @@ public class PreferenceBean implements Serializable {
         } else {
             data.add(spot9);
         }
+        
+        String[] stockList = stock.split("\\s+");
     
-        mirror.createPreference(title, data, zip, stock, sign);
+        mirror.createPreference(title, data, city, state, source, sunSign, stockList);
     
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
         try {
@@ -208,8 +215,10 @@ public class PreferenceBean implements Serializable {
         } else {
             data.add(spot9);
         }
+        
+        String[] stockList = stock.split("\\s+");
     
-        mirror.editPref(selectedPref, title, data, zip, stock, sign);
+        mirror.editPref(selectedPref, title, data, city, state, source, sunSign, stockList);
     
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
         try {
@@ -217,6 +226,14 @@ public class PreferenceBean implements Serializable {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+    }
+    
+    /**
+     * Returns the city value.
+     * @return city
+     */
+    public String getCity () {
+        return city;
     }
 
     /**
@@ -250,21 +267,13 @@ public class PreferenceBean implements Serializable {
     public DataPref getSelectedPref () {
         return selectedPref;
     }
-
+    
     /**
-     * Gets the Horoscope Sign.
-     * @return sign
+     * Gets the source value.
+     * @return source
      */
-    public String getSign () {
-        return sign;
-    }
-
-    /**
-     * Gets the Stock Tick Codes.
-     * @return stock
-     */
-    public String getStock () {
-        return stock;
+    public String getSource () {
+        return source;
     }
 
     /**
@@ -330,6 +339,30 @@ public class PreferenceBean implements Serializable {
     public String getSpot9 () {
         return spot9;
     }
+    
+    /**
+     * Returns the state value.
+     * @return state
+     */
+    public String getState () {
+        return state;
+    }
+
+    /**
+     * Gets the Stock Tick Codes.
+     * @return stock
+     */
+    public String getStock () {
+        return stock;
+    }
+
+    /**
+     * Gets the Horoscope Sign.
+     * @return sunSign
+     */
+    public String getSunSign () {
+        return sunSign;
+    }
 
     /**
      * Returns the Title of the preference.
@@ -337,14 +370,6 @@ public class PreferenceBean implements Serializable {
      */
     public String getTitle () {
         return title;
-    }
-
-    /**
-     * Returns the zip code.
-     * @return zip
-     */
-    public String getZip () {
-        return zip;
     }
 
     /**
@@ -370,6 +395,9 @@ public class PreferenceBean implements Serializable {
         spot7 = "";
         spot8 = "";
         spot9 = "";
+        
+        city = "Toledo";
+        state = "OH";
     }
 
     /**
@@ -400,13 +428,17 @@ public class PreferenceBean implements Serializable {
                 index = Integer.parseInt(da[0]);
                 if (index > 0) {
                     type = mirror.getData(index - 1);
-                    switch (type) {
+                    switch (type) { //TODO Add in the reminders and comic data stuff
                         case "Clock" :     break;
-                        case "Weather" :   zip = da[1];
+                        case "Weather" :   String[] ch = da[1].split("\\|");   
+                                           city = ch[0];
+                                           state = ch[1];
                                            break;
-                        case "Stock" :     stock = da[1];
+                        case "News" :      source = da[1];
                                            break;
-                        case "Horoscope" : sign = da[1]; 
+                        case "Horoscope" : sunSign = da[1]; 
+                                           break;
+                        case "Stocks" :     stock = da[1]; //TODO figure this one out;
                                            break;
                         default : break;
                     }
@@ -504,6 +536,14 @@ public class PreferenceBean implements Serializable {
     }
     
     /**
+     * Sets the zip code to the pasted value.
+     * @param zip String value to set
+     */
+    public void setCity (String city) {
+        this.city = city;
+    }
+
+    /**
      * Sets the Filtered LIst to the Pasted List.
      * @param filterList List to set
      */
@@ -534,13 +574,13 @@ public class PreferenceBean implements Serializable {
     public void setSides (boolean sides) {
         this.sides = sides;
     }
-
+    
     /**
-     * Sets the horoscope sign value to the pasted value.
-     * @param sign String value to set
+     * Sets the Source value to the pasted value.
+     * @param source String value to set
      */
-    public void setSign (String sign) {
-        this.sign = sign;
+    public void setSource (String source) {
+        this.source = source;
     }
 
     /**
@@ -606,6 +646,14 @@ public class PreferenceBean implements Serializable {
     public void setSpot9 (String spot9) {
         this.spot9 = spot9;
     }
+    
+    /**
+     * Sets the State value to the pasted value.
+     * @param state value to set
+     */
+    public void setState (String state) {
+        this.state = state;
+    }
 
     /**
      * Sets the Stock Tick Codes to the pasted value.
@@ -616,19 +664,19 @@ public class PreferenceBean implements Serializable {
     }
 
     /**
+     * Sets the horoscope sign value to the pasted value.
+     * @param sign String value to set
+     */
+    public void setSunSign (String sunSign) {
+        this.sunSign = sunSign;
+    }
+
+    /**
      * Sets the Title of the preference to the pasted value.
      * @param title String value to set.
      */
     public void setTitle (String title) {
         this.title = title;
-    }
-
-    /**
-     * Sets the zip code to the pasted value.
-     * @param zip String value to set
-     */
-    public void setZip (String zip) {
-        this.zip = zip;
     }
 
     /**

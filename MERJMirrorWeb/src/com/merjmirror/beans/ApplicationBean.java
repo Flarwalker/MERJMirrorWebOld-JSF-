@@ -28,7 +28,6 @@ public class ApplicationBean {
      * Public Constructor.
      */
     public ApplicationBean () {
-    
     }
 
     /**

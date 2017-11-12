@@ -3,7 +3,7 @@
  *  Project: MERJMirror
  *  Class:   JdbcMeriDao
  *  Last Edited by: Ryan
- *  Last Edited: 10-20-17
+ *  Last Edited: 11-12-17
  * ----------------------------------------------------------------------------------------------------------- 
  */
 package com.merjmirror.database;
@@ -112,6 +112,29 @@ public class JdbcMerjDao implements IMerjDao, Serializable {
             qry.setInt(1, userId + 1);
             qry.execute();
         
+            qry.close();
+            conn.close();
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+    }
+    
+    /**
+     * Deletes all of the Users preference.
+     * 
+     * @param userId User ID
+     */
+    public void deleteUserPref (int userId) {
+        String query = "DELETE FROM preference WHERE UserID = ?";
+        PreparedStatement qry;
+        
+        try {
+            Connection conn = db.getConnection();
+            
+            qry = conn.prepareStatement(query);
+            qry.setInt(1, userId);
+            qry.execute();
+            
             qry.close();
             conn.close();
         } catch (SQLException ex) {

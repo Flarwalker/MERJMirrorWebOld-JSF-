@@ -83,16 +83,41 @@
                 <br />
 
                 <!-- Places to enter the needed values for the Data Types. -->
-                <h:panelGrid columns = "2">
+                <h:panelGrid columns = "3">
 
-                    <h:outputLabel for = "weather" value = "#{applicationBean.getProperty('label.pref.zip')}" />
-                    <p:inputText id = "weather" value = "#{preferenceBean.zip}" />
+                    <h:outputLabel for = "city" value = "#{applicationBean.getProperty('label.pref.city')}" />
+                    <p:inputText id = "city" value = "#{preferenceBean.city}" />
+                    <h:outputLabel for = "city" value = "#{applicationBean.getProperty('label.pref.city.info')}" />
+                    
+                    <h:outputLabel for = "state" value = "#{applicationBean.getProperty('label.pref.state')}" />
+                    <p:inputText id = "state" value = "#{preferenceBean.state}" />
+                    <h:outputLabel for = "state" value = "#{applicationBean.getProperty('label.pref.state.info')}" />
+                    
+                    <h:outputLabel for = "source" value = "#{applicationBean.getProperty('label.pref.source')}" />
+                    <p:inputText id = "source" value = "#{preferenceBean.source}" />
+                    <h:outputLabel for = "source" value = "#{applicationBean.getProperty('label.pref.source.info')}" />
+                    
+                    <h:outputLabel for = "horoscope" value = "#{applicationBean.getProperty('label.pref.sign')}" />
+                    <p:selectOneMenu id = "horoscope" value = "#{preferenceBean.sunSign}">
+                       <f:selectItem itemLabel = "" itemValue = "" />
+                       <f:selectItem itemLabel = "Aquarius" itemValue = "Aquarius" />
+                       <f:selectItem itemLabel = "Pisces" itemValue = "Pisces" />
+                       <f:selectItem itemLabel = "Aries" itemValue = "Aries" />
+                       <f:selectItem itemLabel = "Taurus" itemValue = "Taurus" />
+                       <f:selectItem itemLabel = "Gemini" itemValue = "Gemini" />
+                       <f:selectItem itemLabel = "Cancer" itemValue = "Cancer" />
+                       <f:selectItem itemLabel = "Leo" itemValue = "Leo" />
+                       <f:selectItem itemLabel = "Virgo" itemValue = "Virgo" />
+                       <f:selectItem itemLabel = "Libra" itemValue = "Libra" />
+                       <f:selectItem itemLabel = "Scorpio" itemValue = "Scorpio" />
+                       <f:selectItem itemLabel = "Sagittarius" itemValue = "Sagittarius" />
+                       <f:selectItem itemLabel = "Capricorn" itemValue = "Capricorn" />
+                    </p:selectOneMenu>
+                    <h:outputLabel for = "horoscope" value = "" />
 
                     <h:outputLabel for = "stock" value = "#{applicationBean.getProperty('label.pref.stock')}" />
                     <p:inputText id = "stock" value = "#{preferenceBean.stock}" />
-
-                    <h:outputLabel for = "scope" value = "#{applicationBean.getProperty('label.pref.sign')}" />
-                    <p:inputText id = "scope" value = "#{preferenceBean.sign}" />
+                    <h:outputLabel for = "stock" value = "#{applicationBean.getProperty('label.pref.stock.info')}" />
 
                 </h:panelGrid>
 

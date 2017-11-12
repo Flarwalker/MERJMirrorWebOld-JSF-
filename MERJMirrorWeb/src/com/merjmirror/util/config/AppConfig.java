@@ -11,6 +11,7 @@ package com.merjmirror.util.config;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Properties;
@@ -21,7 +22,9 @@ import java.util.logging.Logger;
  * Class to load and hold the preferences for the Web APP.
  * @author Ryan
  */
-public class AppConfig {
+public class AppConfig implements Serializable {
+    private static final long serialVersionUID = 6L;
+
     private static final Logger LOGGER = Logger.getLogger(AppConfig.class.getName());
 
     private ArrayList<String> keys;
@@ -65,7 +68,7 @@ public class AppConfig {
     @SuppressWarnings ("unchecked")
     public void reload () {
         LOGGER.log(Level.INFO, "Entering AppConfig.reload");
-        String configPath = "C:/Users/Flarwalker/Documents/Codding/git/MERJMirrorWeb/src/resources/config.properties";
+        String configPath = "C:/Users/rfcro/Documents/Codding/git/MERJMirrorWeb/src/resources/config.properties";
     
         try {
             File appFile = new File(configPath);

@@ -3,7 +3,7 @@
  *  Project: MERJMirror
  *  Interface: IMerjDao
  *  Last Edited by: Ryan
- *  Last Edited: 10-20-17
+ *  Last Edited: 11-12-17
  * ----------------------------------------------------------------------------------------------------------- 
  */
 package com.merjmirror.database.interfaces;
@@ -20,6 +20,8 @@ public interface IMerjDao {
     public void deletePref (int prefId, int userId);
 
     public void deleteUser (int userId);
+    
+    public void deleteUserPref (int userId);
 
     //Insert Into commands
     public void insertData (int dataId, String dataName);
