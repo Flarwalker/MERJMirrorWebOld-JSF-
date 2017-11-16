@@ -97,24 +97,36 @@
                     <h:outputLabel for = "state" value = "#{applicationBean.getProperty('label.pref.state.info')}" />
                     
                     <h:outputLabel for = "source" value = "#{applicationBean.getProperty('label.pref.source')}" />
-                    <p:inputText id = "source" value = "#{preferenceBean.source}" /> <!-- TODO create a list of news sources. -->
+                    <p:selectOneMenu id = "source" value = "#{preferenceBean.source}">
+                        <f:selectItem itemLabel = ""                    itemValue = "" />
+                        <f:selectItem itemLabel = "BBC News"            itemValue = "bbc-news" />
+                        <f:selectItem itemLabel = "Business Insider"    itemValue = "business-insider" />
+                        <f:selectItem itemLabel = "CNN"                 itemValue = "cnn" />
+                        <f:selectItem itemLabel = "ESPN"                itemValue = "espn" />
+                        <f:selectItem itemLabel = "IGN"                 itemValue = "ign" />
+                        <f:selectItem itemLabel = "Independent"         itemValue = "independent" />
+                        <f:selectItem itemLabel = "The Huffington Post" itemValue = "the-huffington-post" />
+                        <f:selectItem itemLabel = "The New York Times"  itemValue = "the-new-york-times" />
+                        <f:selectItem itemLabel = "Time"                itemValue = "time" />
+                        <f:selectItem itemLabel = "USA Today"           itemValue = "usa-today" />
+                    </p:selectOneMenu>
                     <h:outputLabel for = "source" value = "#{applicationBean.getProperty('label.pref.source.info')}" />
                     
                     <h:outputLabel for = "horoscope" value = "#{applicationBean.getProperty('label.pref.sign')}" />
                     <p:selectOneMenu id = "horoscope" value = "#{preferenceBean.sunSign}">
                        <f:selectItem itemLabel = "" itemValue = "" />
-                       <f:selectItem itemLabel = "Aquarius" itemValue = "Aquarius" />
-                       <f:selectItem itemLabel = "Pisces" itemValue = "Pisces" />
-                       <f:selectItem itemLabel = "Aries" itemValue = "Aries" />
-                       <f:selectItem itemLabel = "Taurus" itemValue = "Taurus" />
-                       <f:selectItem itemLabel = "Gemini" itemValue = "Gemini" />
-                       <f:selectItem itemLabel = "Cancer" itemValue = "Cancer" />
-                       <f:selectItem itemLabel = "Leo" itemValue = "Leo" />
-                       <f:selectItem itemLabel = "Virgo" itemValue = "Virgo" />
-                       <f:selectItem itemLabel = "Libra" itemValue = "Libra" />
-                       <f:selectItem itemLabel = "Scorpio" itemValue = "Scorpio" />
+                       <f:selectItem itemLabel = "Aquarius"    itemValue = "Aquarius" />
+                       <f:selectItem itemLabel = "Pisces"      itemValue = "Pisces" />
+                       <f:selectItem itemLabel = "Aries"       itemValue = "Aries" />
+                       <f:selectItem itemLabel = "Taurus"      itemValue = "Taurus" />
+                       <f:selectItem itemLabel = "Gemini"      itemValue = "Gemini" />
+                       <f:selectItem itemLabel = "Cancer"      itemValue = "Cancer" />
+                       <f:selectItem itemLabel = "Leo"         itemValue = "Leo" />
+                       <f:selectItem itemLabel = "Virgo"       itemValue = "Virgo" />
+                       <f:selectItem itemLabel = "Libra"       itemValue = "Libra" />
+                       <f:selectItem itemLabel = "Scorpio"     itemValue = "Scorpio" />
                        <f:selectItem itemLabel = "Sagittarius" itemValue = "Sagittarius" />
-                       <f:selectItem itemLabel = "Capricorn" itemValue = "Capricorn" />
+                       <f:selectItem itemLabel = "Capricorn"   itemValue = "Capricorn" />
                     </p:selectOneMenu>
                     <h:outputLabel for = "horoscope" value = "" />
 
