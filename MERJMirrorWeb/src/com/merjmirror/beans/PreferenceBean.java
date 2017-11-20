@@ -55,6 +55,7 @@ public class PreferenceBean implements Serializable {
 
     // Data String for widgets
     private String city;
+    private String reminder;
     private String source;
     private String state;
     private String stock;
@@ -140,7 +141,7 @@ public class PreferenceBean implements Serializable {
         
         String[] stockList = stock.split("\\s+");
     
-        mirror.createPreference(title, data, city, state, source, sunSign, stockList);
+        mirror.createPreference(title, data, city, state, source, sunSign, stockList, reminder);
     
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
         try {
@@ -218,7 +219,7 @@ public class PreferenceBean implements Serializable {
         
         String[] stockList = stock.split("\\s+");
     
-        mirror.editPref(selectedPref, title, data, city, state, source, sunSign, stockList);
+        mirror.editPref(selectedPref, title, data, city, state, source, sunSign, stockList, reminder);
     
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
         try {
@@ -258,6 +259,14 @@ public class PreferenceBean implements Serializable {
      */
     public ArrayList<DataPref> getPrefList () {
         return prefList;
+    }
+    
+    /**
+     * Gets the reminder value.
+     * @return reminder
+     */
+    public String getReminder () {
+        return reminder;
     }
 
     /**
@@ -378,6 +387,7 @@ public class PreferenceBean implements Serializable {
     @PostConstruct
     public  void init () {
         mirror = ApplicationBean.getMirror();
+        mirror.updatePrefList();
         prefList = mirror.readUserPref();
     
         for (DataPref pf : mirror.getPrefs()) {
@@ -428,7 +438,7 @@ public class PreferenceBean implements Serializable {
                 index = Integer.parseInt(da[0]);
                 if (index > 0) {
                     type = mirror.getData(index - 1);
-                    switch (type) { //TODO Add in the reminders and comic data stuff
+                    switch (type) { //TODO Add in the comic data stuff
                         case "Clock" :     break;
                         case "Weather" :   String[] ch = da[1].split("\\|");   
                                            city = ch[0];
@@ -444,6 +454,8 @@ public class PreferenceBean implements Serializable {
                                                sto = sto + " " + st[i];
                                            }
                                            stock = sto;
+                                           break;
+                        case "Reminder" :  reminder = da[1];
                                            break;
                         default : break;
                     }
@@ -562,6 +574,14 @@ public class PreferenceBean implements Serializable {
      */
     public void setPrefList (ArrayList<DataPref> prefList) {
         this.prefList = prefList;
+    }
+    
+    /**
+     * Sets the Reminder value to the pasted value.
+     * @param reminder Value to set
+     */
+    public void setReminder (String reminder) {
+        this.reminder = reminder;
     }
 
     /**

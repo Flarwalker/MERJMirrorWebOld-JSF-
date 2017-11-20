@@ -92,7 +92,7 @@ public class MerjMirror implements Serializable {
      * @param stock Stock code for stocks
      * @param sign Horoscope sign
      */
-    public void createPreference (String name, ArrayList<String> data, String city, String state, String source, String sunSign, String[] stocks) {
+    public void createPreference (String name, ArrayList<String> data, String city, String state, String source, String sunSign, String[] stocks, String reminder) {
         String da = "";
         String type;
         int index;
@@ -109,7 +109,7 @@ public class MerjMirror implements Serializable {
     
         da = da + index;
         if (!data.get(0).equalsIgnoreCase("")) {
-            switch (data.get(0)) { //TODO Still need to add in the Reminders and comic widgets
+            switch (data.get(0)) { //TODO Still need to add in the comic widgets
                 case "Clock" :     break;
                 case "Weather" :   da = da + "(" + city + "|" + state;
                                    break;
@@ -117,7 +117,9 @@ public class MerjMirror implements Serializable {
                                    break;
                 case "Horoscope" : da = da + "(" + sunSign; 
                                    break;
-                case "Stocks" :     da = da + "(" + stockList;
+                case "Stocks" :    da = da + "(" + stockList;
+                                   break;
+                case "Reminder" :  da = da + "(" + reminder;
                                    break;
                 default : break;
             }
@@ -131,7 +133,7 @@ public class MerjMirror implements Serializable {
         
             da = da + "," + index;
             if (!data.get(i).equalsIgnoreCase("")) {
-                switch (data.get(i)) { //TODO Still need to add in the Reminders and comic widgets
+                switch (data.get(i)) { //TODO Still need to add in the comic widgets
                     case "Clock" :     break;
                     case "Weather" :   da = da + "(" + city + "|" + state;
                                        break;
@@ -139,7 +141,9 @@ public class MerjMirror implements Serializable {
                                        break;
                     case "Horoscope" : da = da + "(" + sunSign; 
                                        break;
-                    case "Stocks" :     da = da + "(" + stockList;
+                    case "Stocks" :    da = da + "(" + stockList;
+                                       break;
+                    case "Reminder" :  da = da + "(" + reminder;
                                        break;
                     default : break;
                 }
@@ -194,7 +198,7 @@ public class MerjMirror implements Serializable {
      * @param stock New Stock Tick Codes to set
      * @param sign New Horoscope Sign to set
      */
-    public void editPref (DataPref selectedPref, String title, ArrayList<String> data, String city, String state, String source, String sunSign, String[] stocks) {
+    public void editPref (DataPref selectedPref, String title, ArrayList<String> data, String city, String state, String source, String sunSign, String[] stocks, String reminder) {
         DataPref temp = selectedPref;
         String da = "";
         String type;
@@ -214,7 +218,7 @@ public class MerjMirror implements Serializable {
     
         da = da + index;
         if (!data.get(0).equalsIgnoreCase("")) {
-            switch (data.get(0)) { //TODO Still need to add in the Reminders and comic widgets
+            switch (data.get(0)) { //TODO Still need to add in the comic widgets
                 case "Clock" :     break;
                 case "Weather" :   da = da + "(" + city + "|" + state;
                                    break;
@@ -222,7 +226,9 @@ public class MerjMirror implements Serializable {
                                    break;
                 case "Horoscope" : da = da + "(" + sunSign; 
                                    break;
-                case "Stocks" :     da = da + "(" + stockList;
+                case "Stocks" :    da = da + "(" + stockList;
+                                   break;
+                case "Reminder" :  da = da + "(" + reminder;
                                    break;
                 default : break;
             }
@@ -235,7 +241,7 @@ public class MerjMirror implements Serializable {
             index++;
         
             da = da + "," + index;
-            switch (data.get(i)) { //TODO Still need to add in the Reminders and comic widgets
+            switch (data.get(i)) { //TODO Still need to add in the comic widgets
                 case "Clock" :     break;
                 case "Weather" :   da = da + "(" + city + "|" + state;
                                    break;
@@ -243,7 +249,9 @@ public class MerjMirror implements Serializable {
                                    break;
                 case "Horoscope" : da = da + "(" + sunSign; 
                                    break;
-                case "Stocks" :     da = da + "(" + stockList;
+                case "Stocks" :    da = da + "(" + stockList;
+                                   break;
+                case "Reminder" :  da = da + "(" + reminder;
                                    break;
                 default : break;
             }
@@ -259,8 +267,7 @@ public class MerjMirror implements Serializable {
         temp.setDataDisplay(da);
         merjDao.updatePref(selectedPref.getPrefId(), activeUser, temp.getPrefId(), temp.getPrefName(), temp.getDataDisplay(), act);
     
-        int pindex = prefs.indexOf(selectedPref);
-        prefs.set(pindex, temp);
+        prefs.set(temp.getPrefId(), temp);
     }
 
     /**
@@ -419,6 +426,13 @@ public class MerjMirror implements Serializable {
         }
         prefs.get(prefID).setActive(active);
         merjDao.updateActive(prefID, activeUser, act);
+    }
+    
+    /**
+     * Updates the List of preferences form the database.
+     */
+    public void updatePrefList () {
+        prefs = merjDao.selectPref();
     }
 
     /**
